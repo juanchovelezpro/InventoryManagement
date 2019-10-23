@@ -1,6 +1,8 @@
 package interfaz;
 
 import javax.swing.*;
+import javax.swing.event.SwingPropertyChangeSupport;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.poi.*;
@@ -21,13 +24,20 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbookFactory;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import modelo.Inventario;
+import modelo.Item;
 
 public class Application extends JFrame implements ActionListener {
 
 	public static final String CHOOSE = "CHOOSE";
 	public static final String TEST = "TEST";
+	public static final String GRAPHIC = "GRAPHIC";
 
 	/**
 	 * Lista de los items
@@ -48,6 +58,11 @@ public class Application extends JFrame implements ActionListener {
 	 * Boton para hacer tests
 	 */
 	private JButton butTest;
+
+	/**
+	 * Boton para abrir la grafica del item correspondiente.
+	 */
+	private JButton butGrafica;
 
 	/**
 	 * Panel Auxiliar para la info de los items.
@@ -94,13 +109,19 @@ public class Application extends JFrame implements ActionListener {
 
 		butTest.setActionCommand(TEST);
 		butTest.addActionListener(this);
-		
-		panelInfo = new PanelInfo(this);
+		butTest.setBounds(0, 0, 50, 50);
 
-		
+		// Boton grafica
+		butGrafica = new JButton("Graficar");
+		butGrafica.setActionCommand(GRAPHIC);
+		butGrafica.addActionListener(this);
+		butGrafica.setBounds(165, 160, 100, 20);
+
+		panelInfo = new PanelInfo(this);
+		panelInfo.add(butGrafica);
 
 		// Se agregan los componentes a la interfaz.
-//		add(butTest);
+//		panelInfo.add(butTest);
 		add(items, BorderLayout.NORTH);
 		add(panelInfo, BorderLayout.CENTER);
 		add(butChooser, BorderLayout.SOUTH);
@@ -132,6 +153,58 @@ public class Application extends JFrame implements ActionListener {
 					inventario.getItems().get(i).getCodigo() + " - " + inventario.getItems().get(i).getDescripcion());
 
 		}
+
+	}
+
+	public ArrayList<String> leyendaX() {
+
+		ArrayList<String> leyenda = new ArrayList<>();
+
+		XSSFSheet sheet = inventario.getWorkbook().getSheetAt(0);
+
+		Iterator<Row> rows = sheet.iterator();
+
+		rows.next();
+		Row row = rows.next();
+
+		Iterator<Cell> cells = row.cellIterator();
+
+		while (cells.hasNext()) {
+
+			Cell cell = cells.next();
+
+			leyenda.add(cell.toString());
+
+		}
+
+		return leyenda;
+
+	}
+
+	public void crearGraficaLineal() {
+
+		ArrayList<String> leyenda = leyendaX();
+
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+		int selected = items.getSelectedIndex();
+		Item item = inventario.getItems().get(selected - 1);
+
+		for (int i = 0; i < item.getCantidades().size(); i++) {
+			dataset.addValue(item.getCantidades().get(i), "Cantidades", leyenda.get(i));
+		}
+
+		JFreeChart lineChart = ChartFactory.createLineChart("Grafica Lineal", "Periodo", "Cantidad del Item", dataset,
+				PlotOrientation.VERTICAL, true, true, false);
+
+		ChartPanel panel = new ChartPanel(lineChart);
+
+		JFrame grafica = new JFrame("Grafica");
+		grafica.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		grafica.setSize(600, 600);
+		grafica.add(panel);
+
+		grafica.setVisible(true);
 
 	}
 
@@ -178,14 +251,19 @@ public class Application extends JFrame implements ActionListener {
 			}
 
 		}
-		
-		
+
+		if (command.equals(GRAPHIC)) {
+
+			crearGraficaLineal();
+
+		}
 
 		if (command.equals(TEST)) {
 
-			System.out.println(inventario.getItems());
+			System.out.println(leyendaX());
 
 		}
+
 	}
 
 	public static void main(String[] args) throws IOException, InvalidFormatException {
