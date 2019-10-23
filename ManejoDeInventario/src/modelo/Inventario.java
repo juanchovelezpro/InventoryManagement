@@ -83,7 +83,7 @@ public class Inventario {
 					break;
 
 				default:
-					item.getCantidades().add((int)Double.parseDouble(cell.toString()));
+					item.getCantidades().add(Double.parseDouble(cell.toString()));
 					break;
 
 				}

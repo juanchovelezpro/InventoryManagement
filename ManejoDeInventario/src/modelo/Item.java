@@ -1,13 +1,15 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.math3.stat.StatUtils;
 
 public class Item {
 
 	private int codigo;
 	private String descripcion;
-	private ArrayList<Integer> cantidades;
-	
+	private ArrayList<Double> cantidades;
 
 	public Item(int codigo, String descripcion) {
 
@@ -31,11 +33,11 @@ public class Item {
 		this.descripcion = descripcion;
 	}
 
-	public ArrayList<Integer> getCantidades() {
+	public ArrayList<Double> getCantidades() {
 		return cantidades;
 	}
 
-	public void setCantidades(ArrayList<Integer> cantidades) {
+	public void setCantidades(ArrayList<Double> cantidades) {
 		this.cantidades = cantidades;
 	}
 
@@ -46,30 +48,44 @@ public class Item {
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-	
+
 	public double CVD() {
+
+		double cvd = 0.0;
+		double promedio = 0.0;
+		double desviacion = 0.0;
+
+		for (int i = 0; i < cantidades.size(); i++) {
+
+			promedio += cantidades.get(i);
+
+		}
+
+		promedio /= cantidades.size();
+
+		desviacion = Math.sqrt(StatUtils.variance(getCantidadesDouble()));
+
+		cvd = desviacion / promedio;
+
 		
-	double cvd = 0.0;	
-	double promedio = 0.0;
-	double desviacion = 0.0;
-	
-	for(int i=0; i<cantidades.size();i++) {
 		
-	promedio+=cantidades.get(i);	
-		
+		return cvd;
+
 	}
-	
-	promedio /= cantidades.size();
-	
-	
-	
-	cvd = desviacion/promedio;
-	
-	return cvd;
-	
+
+	public double[] getCantidadesDouble() {
+
+		double[] c = new double[cantidades.size()];
+
+		for (int i = 0; i < cantidades.size(); i++) {
+
+			c[i] = cantidades.get(i);
+
+		}
+
+		return c;
+
 	}
-	
-	
 
 	@Override
 	public String toString() {

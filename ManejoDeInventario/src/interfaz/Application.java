@@ -50,19 +50,24 @@ public class Application extends JFrame implements ActionListener {
 	private JButton butTest;
 
 	/**
+	 * Panel Auxiliar para la info de los items.
+	 */
+	private PanelInfo panelInfo;
+
+	/**
 	 * Objeto inventario de la aplicacion.
 	 */
 	private Inventario inventario;
 
 	public Application() {
 
+		// Aqui configuraciones basicas de la interfaz.
+
 		setTitle("Manejo de Inventarios");
-		setLayout(null);
-		setSize(500, 500);
+		setLayout(new BorderLayout());
+		setSize(450, 300);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-		
 
 		settingsComponents();
 
@@ -75,35 +80,59 @@ public class Application extends JFrame implements ActionListener {
 
 		// Donde se colocan los items. (Lista)
 		items = new JComboBox<String>();
-		items.setBounds(75, 200, 350, 25);
+		items.addItem("Items");
+		items.setSelectedIndex(0);
 
 		// Boton para abrir el chooser del excel.
 		butChooser = new JButton("Cargar Archivo");
-		butChooser.setBounds(150, 50, 200, 30);
+
 		butChooser.setActionCommand(CHOOSE);
 		butChooser.addActionListener(this);
 
 		// Boton tester
 		butTest = new JButton("Test");
-		butTest.setBounds(0, 0, 200, 20);
+
 		butTest.setActionCommand(TEST);
 		butTest.addActionListener(this);
+		
+		panelInfo = new PanelInfo(this);
+
+		
 
 		// Se agregan los componentes a la interfaz.
-		add(butTest);
-		add(items);
-		add(butChooser);
+//		add(butTest);
+		add(items, BorderLayout.NORTH);
+		add(panelInfo, BorderLayout.CENTER);
+		add(butChooser, BorderLayout.SOUTH);
 
 	}
-	
+
+	public Inventario getInventario() {
+		return inventario;
+	}
+
+	public void setInventario(Inventario inventario) {
+		this.inventario = inventario;
+	}
+
+	public JComboBox<String> getItems() {
+		return items;
+	}
+
+	public void setItems(JComboBox<String> items) {
+		this.items = items;
+	}
+
+	// Actualiza los items en el programa. (La lista que aparece en la ventana)
 	public void actualizarItems() {
-		
-		for(int i = 0; i<inventario.getItems().size();i++) {
-			
-			items.addItem(inventario.getItems().get(i).getCodigo() + " - " + inventario.getItems().get(i).getDescripcion());
-			
+
+		for (int i = 0; i < inventario.getItems().size(); i++) {
+
+			items.addItem(
+					inventario.getItems().get(i).getCodigo() + " - " + inventario.getItems().get(i).getDescripcion());
+
 		}
-		
+
 	}
 
 	@Override
@@ -134,9 +163,9 @@ public class Application extends JFrame implements ActionListener {
 				if (fs != null) {
 
 					// Cargar definitivamente el excel al programa
-					
+
 					inventario = new Inventario();
-					
+
 					inventario.setWorkbook(new XSSFWorkbook(fs));
 					inventario.obtenerItems();
 					actualizarItems();
@@ -149,12 +178,11 @@ public class Application extends JFrame implements ActionListener {
 			}
 
 		}
+		
+		
 
 		if (command.equals(TEST)) {
-			
-			
-			
-			
+
 			System.out.println(inventario.getItems());
 
 		}
