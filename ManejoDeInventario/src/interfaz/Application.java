@@ -83,6 +83,13 @@ public class Application extends JFrame implements ActionListener {
 		setSize(450, 300);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		try {
+
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		settingsComponents();
 
