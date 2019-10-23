@@ -181,30 +181,37 @@ public class Application extends JFrame implements ActionListener {
 
 	}
 
+	// Para crear la grafica.
 	public void crearGraficaLineal() {
 
 		ArrayList<String> leyenda = leyendaX();
 
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-		int selected = items.getSelectedIndex();
-		Item item = inventario.getItems().get(selected - 1);
+		if (items.getSelectedIndex() > 0) {
+			int selected = items.getSelectedIndex();
+			Item item = inventario.getItems().get(selected - 1);
 
-		for (int i = 0; i < item.getCantidades().size(); i++) {
-			dataset.addValue(item.getCantidades().get(i), "Cantidades", leyenda.get(i));
+			for (int i = 0; i < item.getCantidades().size(); i++) {
+				dataset.addValue(item.getCantidades().get(i), "Cantidades", leyenda.get(i));
+			}
+
+			JFreeChart lineChart = ChartFactory.createLineChart("Grafica Lineal", "Periodo", "Cantidad del Item",
+					dataset, PlotOrientation.VERTICAL, true, true, false);
+
+			ChartPanel panel = new ChartPanel(lineChart);
+
+			JFrame grafica = new JFrame("Grafica");
+			grafica.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			grafica.setSize(600, 600);
+			grafica.add(panel);
+
+			grafica.setVisible(true);
+		} else {
+
+			JOptionPane.showMessageDialog(null, "Selecciona un item válido", "Error", JOptionPane.ERROR_MESSAGE);
+
 		}
-
-		JFreeChart lineChart = ChartFactory.createLineChart("Grafica Lineal", "Periodo", "Cantidad del Item", dataset,
-				PlotOrientation.VERTICAL, true, true, false);
-
-		ChartPanel panel = new ChartPanel(lineChart);
-
-		JFrame grafica = new JFrame("Grafica");
-		grafica.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		grafica.setSize(600, 600);
-		grafica.add(panel);
-
-		grafica.setVisible(true);
 
 	}
 
@@ -254,7 +261,8 @@ public class Application extends JFrame implements ActionListener {
 
 		if (command.equals(GRAPHIC)) {
 
-			crearGraficaLineal();
+			if (inventario != null && inventario.getWorkbook() != null)
+				crearGraficaLineal();
 
 		}
 
