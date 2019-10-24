@@ -79,8 +79,7 @@ public class Inventario {
 
 	}
 
-	// Asigna la clase a los items. (A, B o C)
-	public void asignarClasesItems() {
+	public ArrayList<Double> getVolumenesAcumulados() {
 
 		ArrayList<Item> itemsOrganizados = itemsOrganizadosPorVolumenPorcentaje();
 
@@ -93,6 +92,17 @@ public class Inventario {
 			volumenesAcumulados.add(volumenesAcumulados.get(i - 1) + itemsOrganizados.get(i).getVolumenPorcentaje());
 
 		}
+
+		return volumenesAcumulados;
+
+	}
+
+	// Asigna la clase a los items. (A, B o C)
+	public void asignarClasesItems() {
+
+		ArrayList<Item> itemsOrganizados = itemsOrganizadosPorVolumenPorcentaje();
+
+		ArrayList<Double> volumenesAcumulados = getVolumenesAcumulados();
 
 		// Sacar rangos para asignar clases a los items.
 

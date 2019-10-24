@@ -154,6 +154,19 @@ public class Application extends JFrame implements ActionListener {
 		this.items = items;
 	}
 
+	// Método para realizar tests a la app.
+	public void testApp() {
+
+		for (int i = 0; i < inventario.getItems().size(); i++) {
+
+			System.out.println(inventario.getItems().get(i) + " | Acumulado: "
+					+ String.format("%.2f", inventario.getVolumenesAcumulados().get(i)) + " | Clase "
+					+ inventario.getItems().get(i).getClase());
+
+		}
+
+	}
+
 	// Actualiza los items en el programa. (La lista que aparece en la ventana)
 	public void actualizarItems() {
 
@@ -166,6 +179,7 @@ public class Application extends JFrame implements ActionListener {
 
 	}
 
+	// Saca las leyendas X para las graficas lineales.
 	public ArrayList<String> leyendaX() {
 
 		ArrayList<String> leyenda = new ArrayList<>();
@@ -206,12 +220,13 @@ public class Application extends JFrame implements ActionListener {
 				dataset.addValue(item.getCantidades().get(i), "Cantidades", leyenda.get(i));
 			}
 
-			JFreeChart lineChart = ChartFactory.createLineChart("Grafica Lineal", "Periodo", "Cantidad del Item",
-					dataset, PlotOrientation.VERTICAL, true, true, false);
+			JFreeChart lineChart = ChartFactory.createLineChart(
+					"Gráfica Lineal - Item: " + item.getCodigo() + "| Descripción: " + item.getDescripcion(), "Periodo",
+					"Cantidad del Item", dataset, PlotOrientation.VERTICAL, true, true, false);
 
 			ChartPanel panel = new ChartPanel(lineChart);
 
-			JFrame grafica = new JFrame("Grafica");
+			JFrame grafica = new JFrame("Gráfica");
 			grafica.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			grafica.setSize(600, 600);
 			grafica.add(panel);
@@ -225,6 +240,7 @@ public class Application extends JFrame implements ActionListener {
 
 	}
 
+	//Para controlar los eventos de los botones.
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -282,13 +298,8 @@ public class Application extends JFrame implements ActionListener {
 		}
 
 		if (command.equals(TEST)) {
-			
-			for(int i = 0; i<inventario.getItems().size();i++) {
-				
-				System.out.println(inventario.getItems().get(i));
-				
-			}
-			
+
+			testApp();
 
 		}
 
