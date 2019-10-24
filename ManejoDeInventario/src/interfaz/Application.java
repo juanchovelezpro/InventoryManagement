@@ -40,7 +40,7 @@ public class Application extends JFrame implements ActionListener {
 
 	public static final String CHOOSE = "CHOOSE";
 	public static final String TEST = "TEST";
-	public static final String GRAPHIC = "GRAPHIC";
+
 
 	/**
 	 * Lista de los items
@@ -62,10 +62,7 @@ public class Application extends JFrame implements ActionListener {
 	 */
 	private JButton butTest;
 
-	/**
-	 * Boton para abrir la grafica del item correspondiente.
-	 */
-	private JButton butGrafica;
+
 
 	/**
 	 * Panel Auxiliar para la info de los items.
@@ -82,8 +79,7 @@ public class Application extends JFrame implements ActionListener {
 		// Aqui configuraciones basicas de la interfaz.
 
 		setTitle("Manejo de Inventarios");
-		setLayout(new BorderLayout());
-		setSize(450, 300);
+		setSize(759, 525);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -105,11 +101,15 @@ public class Application extends JFrame implements ActionListener {
 
 		// Donde se colocan los items. (Lista)
 		items = new JComboBox<String>();
+		items.setFont(new Font("Garamond", Font.PLAIN, 18));
+		items.setBounds(0, 6, 753, 38);
 		items.addItem("Items");
 		items.setSelectedIndex(0);
 
 		// Boton para abrir el chooser del excel.
 		butChooser = new JButton("Cargar Archivo");
+		butChooser.setFont(new Font("Garamond", Font.BOLD, 18));
+		butChooser.setBounds(0, 440, 753, 50);
 
 		butChooser.setActionCommand(CHOOSE);
 		butChooser.addActionListener(this);
@@ -120,21 +120,16 @@ public class Application extends JFrame implements ActionListener {
 		butTest.setActionCommand(TEST);
 		butTest.addActionListener(this);
 		butTest.setBounds(0, 0, 50, 50);
-
-		// Boton grafica
-		butGrafica = new JButton("Graficar");
-		butGrafica.setActionCommand(GRAPHIC);
-		butGrafica.addActionListener(this);
-		butGrafica.setBounds(165, 160, 100, 20);
-
+		
 		panelInfo = new PanelInfo(this);
-		panelInfo.add(butGrafica);
+		panelInfo.setBounds(0, 45, 753, 396);
+		getContentPane().setLayout(null);
 
 		// Se agregan los componentes a la interfaz.
-		panelInfo.add(butTest);
-		add(items, BorderLayout.NORTH);
-		add(panelInfo, BorderLayout.CENTER);
-		add(butChooser, BorderLayout.SOUTH);
+//		panelInfo.add(butTest);
+		getContentPane().add(items);
+		getContentPane().add(panelInfo);
+		getContentPane().add(butChooser);
 
 	}
 
@@ -229,7 +224,7 @@ public class Application extends JFrame implements ActionListener {
 			JFrame grafica = new JFrame("Gráfica");
 			grafica.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			grafica.setSize(600, 600);
-			grafica.add(panel);
+			grafica.getContentPane().add(panel);
 
 			grafica.setVisible(true);
 		} else {
@@ -289,13 +284,7 @@ public class Application extends JFrame implements ActionListener {
 			}
 
 		}
-
-		if (command.equals(GRAPHIC)) {
-
-			if (inventario != null && inventario.getWorkbook() != null)
-				crearGraficaLineal();
-
-		}
+		
 
 		if (command.equals(TEST)) {
 
