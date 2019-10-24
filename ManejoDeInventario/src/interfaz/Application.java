@@ -83,7 +83,7 @@ public class Application extends JFrame implements ActionListener {
 		setSize(450, 300);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		try {
 
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -128,7 +128,7 @@ public class Application extends JFrame implements ActionListener {
 		panelInfo.add(butGrafica);
 
 		// Se agregan los componentes a la interfaz.
-//		panelInfo.add(butTest);
+		panelInfo.add(butTest);
 		add(items, BorderLayout.NORTH);
 		add(panelInfo, BorderLayout.CENTER);
 		add(butChooser, BorderLayout.SOUTH);
@@ -274,8 +274,6 @@ public class Application extends JFrame implements ActionListener {
 		}
 
 		if (command.equals(TEST)) {
-
-			System.out.println(leyendaX());
 
 		}
 

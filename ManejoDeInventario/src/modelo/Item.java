@@ -10,6 +10,9 @@ public class Item {
 	private int codigo;
 	private String descripcion;
 	private ArrayList<Double> cantidades;
+	private ArrayList<Double> costosUnitarios;
+	private ArrayList<Integer> salidasDeInventario;
+	private char clase;
 
 	public Item(int codigo, String descripcion) {
 
@@ -21,8 +24,29 @@ public class Item {
 
 	public Item() {
 
+		codigo = 0;
+		descripcion = "";
+		clase = ' ';
 		cantidades = new ArrayList<>();
+		costosUnitarios = new ArrayList<>();
+		salidasDeInventario = new ArrayList<>();
 
+	}
+
+	public ArrayList<Double> getCostosUnitarios() {
+		return costosUnitarios;
+	}
+
+	public void setCostosUnitarios(ArrayList<Double> costosUnitarios) {
+		this.costosUnitarios = costosUnitarios;
+	}
+
+	public ArrayList<Integer> getSalidasDeInventario() {
+		return salidasDeInventario;
+	}
+
+	public void setSalidasDeInventario(ArrayList<Integer> salidasDeInventario) {
+		this.salidasDeInventario = salidasDeInventario;
 	}
 
 	public String getDescripcion() {
@@ -67,9 +91,21 @@ public class Item {
 
 		cvd = desviacion / promedio;
 
-		
-		
 		return cvd;
+
+	}
+
+	public double volumen() {
+
+		double volumen = 0.0;
+
+		for (int i = 0; i < salidasDeInventario.size(); i++) {
+
+			volumen += salidasDeInventario.get(i) * costosUnitarios.get(i);
+
+		}
+
+		return volumen;
 
 	}
 
@@ -90,7 +126,7 @@ public class Item {
 	@Override
 	public String toString() {
 
-		return "Codigo:" + codigo + "\n" + "Descripcion:" + descripcion + "\n" + cantidades;
+		return "Codigo:" + codigo + "\n" + "Descripcion:" + descripcion;
 
 	}
 
