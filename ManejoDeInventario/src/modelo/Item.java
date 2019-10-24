@@ -5,13 +5,15 @@ import java.util.List;
 
 import org.apache.commons.math3.stat.StatUtils;
 
-public class Item {
+public class Item implements Comparable<Item> {
 
 	private int codigo;
 	private String descripcion;
 	private ArrayList<Double> cantidades;
 	private ArrayList<Double> costosUnitarios;
 	private ArrayList<Integer> salidasDeInventario;
+	private double volumenPorcentaje;
+
 	private char clase;
 
 	public Item(int codigo, String descripcion) {
@@ -109,6 +111,22 @@ public class Item {
 
 	}
 
+	public char getClase() {
+		return clase;
+	}
+
+	public void setClase(char clase) {
+		this.clase = clase;
+	}
+
+	public double getVolumenPorcentaje() {
+		return volumenPorcentaje;
+	}
+
+	public void setVolumenPorcentaje(double volumenPorcentaje) {
+		this.volumenPorcentaje = volumenPorcentaje;
+	}
+
 	public double[] getCantidadesDouble() {
 
 		double[] c = new double[cantidades.size()];
@@ -126,8 +144,26 @@ public class Item {
 	@Override
 	public String toString() {
 
-		return "Codigo:" + codigo + "\n" + "Descripcion:" + descripcion;
+		return ""+getVolumenPorcentaje();
 
+	}
+
+	@Override
+	public int compareTo(Item item) {
+
+		int value = 0;
+
+		if (this.codigo >= item.getCodigo()) {
+
+			value = 1;
+
+		} else {
+
+			value = -1;
+
+		}
+
+		return value;
 	}
 
 }

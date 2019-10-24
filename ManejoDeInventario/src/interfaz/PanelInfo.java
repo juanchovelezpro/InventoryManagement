@@ -52,7 +52,7 @@ public class PanelInfo extends JPanel {
 			Inventario inv = app.getInventario();
 
 			//Formato a dos decimales
-			DecimalFormat df = new DecimalFormat("#.00");
+			DecimalFormat df = new DecimalFormat("0.00");
 			
 			labCVDCalculado.setText(" " + df.format(inv.getItems().get(app.getItems().getSelectedIndex() - 1).CVD()));
 

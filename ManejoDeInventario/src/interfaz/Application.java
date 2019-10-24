@@ -10,7 +10,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.apache.poi.*;
@@ -30,6 +32,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import comparadores.OrdenarItemsPorVolumenPorcentaje;
 import modelo.Inventario;
 import modelo.Item;
 
@@ -249,13 +252,16 @@ public class Application extends JFrame implements ActionListener {
 
 				if (fs != null) {
 
-					// Cargar definitivamente el excel al programa
+					// Cargar definitivamente el excel al programa y realizar todos los calculos y
+					// procesos.
 
 					inventario = new Inventario();
 
 					inventario.setWorkbook(new XSSFWorkbook(fs));
 					inventario.obtenerItems();
 					actualizarItems();
+					inventario.itemsParaClasificacion();
+					inventario.calcularPorcentajesDeVolumenes();
 
 				}
 
@@ -274,6 +280,17 @@ public class Application extends JFrame implements ActionListener {
 		}
 
 		if (command.equals(TEST)) {
+
+			Collections.sort(inventario.getItems(), new OrdenarItemsPorVolumenPorcentaje());
+
+			DecimalFormat df = new DecimalFormat("0.00");
+
+			for (int i = 0; i < inventario.getItems().size(); i++) {
+
+				System.out.println(df.format(inventario.getItems().get(i).getVolumenPorcentaje()) + "  --> "
+						+ df.format(inventario.asignarClasesItems().get(i)));
+
+			}
 
 		}
 

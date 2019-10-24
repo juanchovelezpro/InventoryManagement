@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -8,13 +9,14 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import comparadores.OrdenarItemsPorVolumenPorcentaje;
+
 public class Inventario {
 
 	/**
 	 * Lista de items.
 	 */
 	private ArrayList<Item> items;
-	private ArrayList<Double> volumenesPorcentajes;
 
 	/**
 	 * Archivo de excel.
@@ -24,7 +26,6 @@ public class Inventario {
 	public Inventario() {
 
 		items = new ArrayList<>();
-		volumenesPorcentajes = new ArrayList<>();
 		workbook = null;
 
 	}
@@ -45,6 +46,16 @@ public class Inventario {
 		this.workbook = workbook;
 	}
 
+	public ArrayList<Item> itemsOrganizadosPorVolumenPorcentaje() {
+
+		ArrayList<Item> organizados = items;
+
+		Collections.sort(organizados, new OrdenarItemsPorVolumenPorcentaje());
+
+		return organizados;
+
+	}
+
 	public void calcularPorcentajesDeVolumenes() {
 
 		double volumenTotal = 0.0;
@@ -62,13 +73,33 @@ public class Inventario {
 
 			double porcentaje = (items.get(i).volumen() / volumenTotal) * 100;
 
-			volumenesPorcentajes.add(porcentaje);
+			items.get(i).setVolumenPorcentaje(porcentaje);
 
 		}
 
 	}
 
-	// Para calcular CVD
+	public ArrayList<Double> asignarClasesItems() {
+		
+		ArrayList<Item> itemsOrganizados = itemsOrganizadosPorVolumenPorcentaje();
+		
+		ArrayList<Double> volumenesAcumulados = new ArrayList<>();
+		
+		volumenesAcumulados.add(itemsOrganizados.get(0).getVolumenPorcentaje());
+		
+		for(int i = 1; i<itemsOrganizados.size();i++) {
+			
+			volumenesAcumulados.add(volumenesAcumulados.get(i-1) + itemsOrganizados.get(i).getVolumenPorcentaje());
+			
+		}
+		
+		
+		return volumenesAcumulados;
+	}
+	
+	// Lee la primera hoja del excel para calcular CVD y sacar las graficas de
+	// cantidad de item por periodo.
+
 	public void obtenerItems() {
 
 		XSSFSheet sheet = workbook.getSheetAt(0);
