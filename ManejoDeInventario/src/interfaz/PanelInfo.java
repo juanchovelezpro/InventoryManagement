@@ -11,6 +11,7 @@ import modelo.*;
 public class PanelInfo extends JPanel implements ActionListener {
 
 	public static final String GRAPHIC = "GRAPHIC";
+	public static final String TEST = "TEST";
 
 	/**
 	 * Labels para el CVD
@@ -19,7 +20,11 @@ public class PanelInfo extends JPanel implements ActionListener {
 	private JLabel labCVDCalculado;
 	private JLabel labClase;
 	private JLabel labClaseRes;
-
+	
+	/**
+	 * Boton para hacer tests
+	 */
+	private JButton butTest;
 
 	/**
 	 * Boton para abrir la grafica del item correspondiente.
@@ -53,17 +58,24 @@ public class PanelInfo extends JPanel implements ActionListener {
 		butGrafica = new JButton("Graficar");
 		butGrafica.setActionCommand(GRAPHIC);
 		butGrafica.addActionListener(this);
-		butGrafica.setBounds(304, 291, 140, 46);
+		butGrafica.setBounds(290, 297, 140, 46);
 
+		// Boton tester
+		butTest = new JButton("Test");
+		butTest.setActionCommand(TEST);
+		butTest.addActionListener(this);
+		butTest.setBounds(297, 76, 121, 50);
+		
+		add(butTest);
 		add(butGrafica);
 		add(labCVD);
 		add(labCVDCalculado);
-		
+
 		labClase = new JLabel("Clase:");
 		labClase.setFont(new Font("Garamond", Font.BOLD, 20));
 		labClase.setBounds(257, 226, 56, 16);
 		add(labClase);
-		
+
 		labClaseRes = new JLabel("");
 		labClaseRes.setFont(new Font("Garamond", Font.BOLD, 20));
 		labClaseRes.setBounds(325, 215, 66, 27);
@@ -84,7 +96,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 			DecimalFormat df = new DecimalFormat("0.00");
 
 			labCVDCalculado.setText(" " + df.format(inv.getItems().get(app.getItems().getSelectedIndex() - 1).CVD()));
-			labClaseRes.setText(inv.getItems().get(app.getItems().getSelectedIndex()-1).getClase()+"");
+			labClaseRes.setText(inv.getItems().get(app.getItems().getSelectedIndex() - 1).getClase() + "");
 
 		} else {
 
@@ -105,6 +117,12 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 			if (app.getInventario() != null && app.getInventario().getWorkbook() != null)
 				app.crearGraficaLineal();
+
+		}
+		
+		if (command.equals(TEST)) {
+
+			app.testApp();
 
 		}
 

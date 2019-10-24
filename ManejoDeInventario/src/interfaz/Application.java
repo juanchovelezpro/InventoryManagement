@@ -39,8 +39,6 @@ import modelo.Item;
 public class Application extends JFrame implements ActionListener {
 
 	public static final String CHOOSE = "CHOOSE";
-	public static final String TEST = "TEST";
-
 
 	/**
 	 * Lista de los items
@@ -56,13 +54,6 @@ public class Application extends JFrame implements ActionListener {
 	 * Boton para abrir el chooser del archivo.
 	 */
 	private JButton butChooser;
-
-	/**
-	 * Boton para hacer tests
-	 */
-	private JButton butTest;
-
-
 
 	/**
 	 * Panel Auxiliar para la info de los items.
@@ -114,13 +105,6 @@ public class Application extends JFrame implements ActionListener {
 		butChooser.setActionCommand(CHOOSE);
 		butChooser.addActionListener(this);
 
-		// Boton tester
-		butTest = new JButton("Test");
-
-		butTest.setActionCommand(TEST);
-		butTest.addActionListener(this);
-		butTest.setBounds(0, 0, 50, 50);
-		
 		panelInfo = new PanelInfo(this);
 		panelInfo.setBounds(0, 45, 753, 396);
 		getContentPane().setLayout(null);
@@ -235,7 +219,7 @@ public class Application extends JFrame implements ActionListener {
 
 	}
 
-	//Para controlar los eventos de los botones.
+	// Para controlar los eventos de los botones.
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -282,13 +266,6 @@ public class Application extends JFrame implements ActionListener {
 
 				ex.printStackTrace();
 			}
-
-		}
-		
-
-		if (command.equals(TEST)) {
-
-			testApp();
 
 		}
 
