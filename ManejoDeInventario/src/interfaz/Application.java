@@ -259,9 +259,11 @@ public class Application extends JFrame implements ActionListener {
 
 					inventario.setWorkbook(new XSSFWorkbook(fs));
 					inventario.obtenerItems();
-					actualizarItems();
 					inventario.itemsParaClasificacion();
 					inventario.calcularPorcentajesDeVolumenes();
+					inventario.asignarClasesItems();
+
+					actualizarItems();
 
 				}
 
@@ -280,17 +282,13 @@ public class Application extends JFrame implements ActionListener {
 		}
 
 		if (command.equals(TEST)) {
-
-			Collections.sort(inventario.getItems(), new OrdenarItemsPorVolumenPorcentaje());
-
-			DecimalFormat df = new DecimalFormat("0.00");
-
-			for (int i = 0; i < inventario.getItems().size(); i++) {
-
-				System.out.println(df.format(inventario.getItems().get(i).getVolumenPorcentaje()) + "  --> "
-						+ df.format(inventario.asignarClasesItems().get(i)));
-
+			
+			for(int i = 0; i<inventario.getItems().size();i++) {
+				
+				System.out.println(inventario.getItems().get(i));
+				
 			}
+			
 
 		}
 

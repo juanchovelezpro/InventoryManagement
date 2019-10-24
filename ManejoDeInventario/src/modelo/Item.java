@@ -144,7 +144,7 @@ public class Item implements Comparable<Item> {
 	@Override
 	public String toString() {
 
-		return ""+getVolumenPorcentaje();
+		return "Codigo: " + codigo + " V:  " + volumen() + "- V%: " + String.format("%.2f", getVolumenPorcentaje());
 
 	}
 

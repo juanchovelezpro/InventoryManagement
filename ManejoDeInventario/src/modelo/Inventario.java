@@ -79,24 +79,78 @@ public class Inventario {
 
 	}
 
-	public ArrayList<Double> asignarClasesItems() {
-		
+	// Asigna la clase a los items. (A, B o C)
+	public void asignarClasesItems() {
+
 		ArrayList<Item> itemsOrganizados = itemsOrganizadosPorVolumenPorcentaje();
-		
+
 		ArrayList<Double> volumenesAcumulados = new ArrayList<>();
-		
+
 		volumenesAcumulados.add(itemsOrganizados.get(0).getVolumenPorcentaje());
-		
-		for(int i = 1; i<itemsOrganizados.size();i++) {
-			
-			volumenesAcumulados.add(volumenesAcumulados.get(i-1) + itemsOrganizados.get(i).getVolumenPorcentaje());
-			
+
+		for (int i = 1; i < itemsOrganizados.size(); i++) {
+
+			volumenesAcumulados.add(volumenesAcumulados.get(i - 1) + itemsOrganizados.get(i).getVolumenPorcentaje());
+
 		}
-		
-		
-		return volumenesAcumulados;
+
+		// Sacar rangos para asignar clases a los items.
+
+		int indexAFinal = 0;
+		int indexB = 0;
+		int indexBFinal = 0;
+		int indexC = 0;
+
+		boolean aDefinido = false;
+		boolean cDefinido = false;
+
+		for (int i = 0; i < volumenesAcumulados.size(); i++) {
+
+			if (volumenesAcumulados.get(i) > 80.0 && !aDefinido) {
+
+				indexAFinal = i - 1;
+				indexB = i;
+
+				aDefinido = true;
+
+			}
+
+			if (volumenesAcumulados.get(i) >= 95.0 && !cDefinido) {
+
+				indexC = i;
+				indexBFinal = i - 1;
+
+				cDefinido = true;
+
+			}
+
+		}
+
+		// Asignar clases A
+		for (int i = 0; i <= indexAFinal; i++) {
+
+			itemsOrganizados.get(i).setClase('A');
+
+		}
+
+		// Asignar clases B
+		for (int i = indexB; i <= indexBFinal; i++) {
+
+			itemsOrganizados.get(i).setClase('B');
+
+		}
+
+		// Asignar clases C
+		for (int i = indexC; i < itemsOrganizados.size(); i++) {
+
+			itemsOrganizados.get(i).setClase('C');
+
+		}
+
+		items = itemsOrganizados;
+
 	}
-	
+
 	// Lee la primera hoja del excel para calcular CVD y sacar las graficas de
 	// cantidad de item por periodo.
 
