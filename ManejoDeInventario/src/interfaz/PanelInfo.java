@@ -122,7 +122,12 @@ public class PanelInfo extends JPanel implements ActionListener {
 		
 		if (command.equals(TEST)) {
 
-			app.testApp();
+//			app.testApp();
+			app.getInventario().obtenerCantidadesPorPeriodo(2018,0);
+			
+			System.out.println(app.getInventario().getItems().get(0));
+			
+			System.out.println(app.getInventario().getItems().get(0).getCantidades().get(0));
 
 		}
 

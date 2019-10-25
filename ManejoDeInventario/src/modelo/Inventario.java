@@ -28,12 +28,37 @@ public class Inventario {
 	 * Archivo de excel.
 	 */
 	private XSSFWorkbook workbook;
+	private ArrayList<Integer> years;
 
 	public Inventario() {
 
 		items = new ArrayList<>();
+		years = new ArrayList<>();
 		workbook = null;
 
+	}
+
+	public void fillYears() {
+
+		for (int i = 0; i < items.size(); i++) {
+
+			for (int j = 0; j < items.get(i).getFechas().size(); j++) {
+
+				
+				
+				
+			}
+
+		}
+
+	}
+
+	public ArrayList<Integer> getYears() {
+		return years;
+	}
+
+	public void setYears(ArrayList<Integer> years) {
+		this.years = years;
 	}
 
 	public ArrayList<Item> getItems() {
@@ -167,22 +192,33 @@ public class Inventario {
 
 	}
 
-	public void obtenerCantidadesPorPeriodo() {
+	public void obtenerCantidadesPorPeriodo(int year, int month) {
 
-//		for (int i = 0; i < items.size(); i++) {
-//
-//			for (int j = 0; j < items.get(i).getFechas().size(); j++) {
-//
+		for (int i = 0; i < items.size(); i++) {
+
+			int cantidadesMes = 0;
+
+			for (int j = 0; j < items.get(i).getFechas().size(); j++) {
+
 				Calendar cal = Calendar.getInstance();
-				Date date = items.get(0).getFechas().get(0);
-//
-//				cal.setTime(date);
-				
-				System.out.println(cal.get(Calendar.MONTH));
 
-//			}
-//
-//		}
+				Date date = items.get(i).getFechas().get(j);
+				cal.setTime(date);
+
+				if (cal.get(Calendar.YEAR) == year) {
+
+					if (cal.get(Calendar.MONTH) == month) {
+
+						cantidadesMes += items.get(i).getSalidasDeInventario().get(j);
+
+					}
+
+				}
+			}
+
+			items.get(i).getCantidades().add((double) cantidadesMes);
+
+		}
 
 	}
 
