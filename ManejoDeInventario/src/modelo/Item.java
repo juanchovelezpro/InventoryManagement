@@ -25,7 +25,7 @@ public class Item implements Comparable<Item> {
 	private ArrayList<String> cCostos;
 	private ArrayList<String> descCCostos;
 	private ArrayList<Double> costosUnitariosReExpresion;
-	private ArrayList<Double> cantidades;
+	private ArrayList<Integer> cantidades;
 
 	private double volumenPorcentaje;
 	private char clase;
@@ -231,11 +231,11 @@ public class Item implements Comparable<Item> {
 		this.descripcion = descripcion;
 	}
 
-	public ArrayList<Double> getCantidades() {
+	public ArrayList<Integer> getCantidades() {
 		return cantidades;
 	}
 
-	public void setCantidades(ArrayList<Double> cantidades) {
+	public void setCantidades(ArrayList<Integer> cantidades) {
 		this.cantidades = cantidades;
 	}
 
@@ -345,8 +345,10 @@ public class Item implements Comparable<Item> {
 	@Override
 	public String toString() {
 
-		return "Codigo: " + codigo + "| V:  " + String.format("%.2f", volumen()) + "| V%: "
-				+ String.format("%.2f", getVolumenPorcentaje());
+//		return "Codigo: " + codigo + "| V:  " + String.format("%.2f", volumen()) + "| V%: "
+//				+ String.format("%.2f", getVolumenPorcentaje());
+		
+		return "Codigo: " + codigo +"  |  CVD: "+ String.format("%.2f", cvd) + " | Clase: "+ clase;
 
 	}
 

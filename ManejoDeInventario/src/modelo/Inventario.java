@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -15,6 +16,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import comparadores.OrdenarItemsPorCVD;
+import comparadores.OrdenarItemsPorCodigo;
+import comparadores.OrdenarItemsPorDescripcion;
 import comparadores.OrdenarItemsPorVolumenPorcentaje;
 
 public class Inventario {
@@ -129,6 +133,30 @@ public class Inventario {
 		Collections.sort(organizados, new OrdenarItemsPorVolumenPorcentaje());
 
 		return organizados;
+
+	}
+
+	public void ordenarItemsPorCodigo() {
+
+		Collections.sort(items, new OrdenarItemsPorCodigo());
+
+	}
+
+	public void ordenarItemsPorDescripcion() {
+
+		Collections.sort(items, new OrdenarItemsPorDescripcion());
+
+	}
+
+	public void ordenarItemsPorCVD() {
+
+		Collections.sort(items, new OrdenarItemsPorCVD());
+
+	}
+
+	public void ordenarItemsPorClase() {
+
+		Collections.sort(items, new OrdenarItemsPorVolumenPorcentaje());
 
 	}
 
@@ -279,7 +307,7 @@ public class Inventario {
 				}
 			}
 
-			items.get(i).getCantidades().add((double) cantidadesMes);
+			items.get(i).getCantidades().add(cantidadesMes);
 
 		}
 

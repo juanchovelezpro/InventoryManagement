@@ -58,6 +58,13 @@ public class PanelInfo extends JPanel implements ActionListener {
 	private JTextField txtPDemanda;
 	private JTextField txtClase;
 	private JButton butStock;
+	private JLabel labIcono;
+	private JComboBox<String> comboOrdenarItems;
+	private JComboBox<String> comboTablas;
+	private JButton butVerTabla;
+	private JLabel labTablas;
+	private JLabel labVersion;
+	private JButton butCreditos;
 
 	public PanelInfo(Application app) {
 
@@ -79,10 +86,12 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		// Boton grafica
 		butGrafica = new JButton("Gr\u00E1fica Lineal - Cantidad de Item vs Per\u00EDodo");
+		butGrafica.setToolTipText(
+				"Permite visualizar la gr\u00E1fica lineal de las cantidades de  un item en un periodo. (Esta gr\u00E1fica se realiza con la primera tabla en la lista de tablas)");
 		butGrafica.setBackground(new Color(112, 128, 144));
-		butGrafica.setFont(new Font("Garamond", Font.BOLD, 14));
+		butGrafica.setFont(new Font("Garamond", Font.BOLD, 15));
 		butGrafica.addActionListener(this);
-		butGrafica.setBounds(0, 436, 328, 38);
+		butGrafica.setBounds(6, 436, 328, 38);
 		add(butGrafica);
 
 		// Boton tester
@@ -98,8 +107,6 @@ public class PanelInfo extends JPanel implements ActionListener {
 		items.setBackground(new Color(25, 25, 112));
 		items.setFont(new Font("Garamond", Font.BOLD, 16));
 		items.setBounds(151, 133, 499, 38);
-		items.addItem("Items");
-		items.setSelectedIndex(0);
 		items.addActionListener(this);
 		add(items);
 
@@ -113,22 +120,32 @@ public class PanelInfo extends JPanel implements ActionListener {
 		add(butChooser);
 
 		labClase = new JLabel("Clase:");
+		labClase.setToolTipText("Puede ser tipo A, B o C.");
 		labClase.setFont(new Font("Garamond", Font.BOLD, 26));
 		labClase.setBounds(6, 323, 83, 38);
 		add(labClase);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(291, 108, 359, 26);
-		add(comboBox);
+		comboOrdenarItems = new JComboBox<>();
+		comboOrdenarItems.setToolTipText("Criterios para ordenar la lista de items.");
+		comboOrdenarItems.setBounds(291, 108, 359, 26);
+		comboOrdenarItems.addItem("Clase");
+		comboOrdenarItems.addItem("Código");
+		comboOrdenarItems.addItem("CVD");
+		comboOrdenarItems.addItem("Descripcion");
+		comboOrdenarItems.setSelectedIndex(0);
+		comboOrdenarItems.addActionListener(this);
+		add(comboOrdenarItems);
 
 		JLabel labTitulo = new JLabel("Inventory Management");
+		labTitulo.setToolTipText("Software para la gesti\u00F3n de inventarios");
 		labTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		labTitulo.setFont(new Font("Elephant", Font.PLAIN, 44));
-		labTitulo.setBounds(115, 16, 514, 69);
+		labTitulo.setBounds(39, 16, 565, 69);
 		add(labTitulo);
 
-		JLabel labIcono = new JLabel("");
+		labIcono = new JLabel("");
 		labIcono.setBounds(6, 6, 100, 96);
+//		labIcono.setIcon(ToolManager.cargarImagenIcon("resources/logoIcesi.jpg"));
 		add(labIcono);
 
 		JLabel labOrdenar = new JLabel("Ordenar items por:");
@@ -149,6 +166,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 		add(separador);
 
 		lblTDemanda = new JLabel("P. Demanda:");
+		lblTDemanda.setToolTipText("Patr\u00F3n de demanda.");
 		lblTDemanda.setFont(new Font("Garamond", Font.BOLD, 26));
 		lblTDemanda.setBounds(6, 288, 150, 38);
 		add(lblTDemanda);
@@ -163,12 +181,13 @@ public class PanelInfo extends JPanel implements ActionListener {
 		txtCVD = new JTextField();
 		txtCVD.setFont(new Font("Garamond", Font.PLAIN, 24));
 		txtCVD.setEditable(false);
-		txtCVD.setHorizontalAlignment(SwingConstants.LEFT);
+		txtCVD.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtCVD.setBounds(88, 250, 240, 36);
 		add(txtCVD);
 		txtCVD.setColumns(10);
 
 		txtPDemanda = new JTextField();
+		txtPDemanda.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtPDemanda.setEditable(false);
 		txtPDemanda.setFont(new Font("Garamond", Font.PLAIN, 20));
 		txtPDemanda.setColumns(10);
@@ -176,11 +195,49 @@ public class PanelInfo extends JPanel implements ActionListener {
 		add(txtPDemanda);
 
 		txtClase = new JTextField();
+		txtClase.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtClase.setEditable(false);
 		txtClase.setFont(new Font("Garamond", Font.PLAIN, 24));
 		txtClase.setColumns(10);
 		txtClase.setBounds(88, 327, 240, 36);
 		add(txtClase);
+
+		comboTablas = new JComboBox<>();
+		comboTablas.setToolTipText(
+				"Lista de las tablas que pueden ser \u00FAtiles para obtener informacion detallada del inventario.");
+		comboTablas.setBounds(345, 250, 300, 35);
+		comboTablas.addItem("Tabla de Inventario de Items por periodo");
+		comboTablas.addActionListener(this);
+		add(comboTablas);
+
+		butVerTabla = new JButton("Ver tabla");
+		butVerTabla.setToolTipText("Permite ver la tabla seleccionada en la lista de tablas.");
+		butVerTabla.setBackground(new Color(119, 136, 153));
+		butVerTabla.setFont(new Font("Garamond", Font.BOLD, 14));
+		butVerTabla.setBounds(345, 292, 300, 36);
+		butVerTabla.addActionListener(this);
+		add(butVerTabla);
+
+		labTablas = new JLabel("Tablas");
+		labTablas.setFont(new Font("Elephant", Font.PLAIN, 17));
+		labTablas.setHorizontalAlignment(SwingConstants.CENTER);
+		labTablas.setBounds(376, 204, 238, 16);
+		add(labTablas);
+
+		labVersion = new JLabel("Versi\u00F3n 1.0.0");
+		labVersion.setToolTipText("(BETA)");
+		labVersion.setFont(new Font("Elephant", Font.BOLD, 18));
+		labVersion.setHorizontalAlignment(SwingConstants.CENTER);
+		labVersion.setBounds(500, 437, 150, 53);
+		add(labVersion);
+
+		butCreditos = new JButton("Cr\u00E9ditos");
+		butCreditos.setToolTipText("Muestra las personas que colaboraron en el proyecto y los cargos.");
+		butCreditos.setFont(new Font("Garamond", Font.BOLD, 16));
+		butCreditos.setBackground(new Color(128, 128, 128));
+		butCreditos.setBounds(384, 451, 90, 28);
+		butCreditos.addActionListener(this);
+		add(butCreditos);
 
 	}
 
@@ -204,7 +261,71 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 	}
 
+	public void crearTablaInventarioItemPorPeriodo() {
+
+		ArrayList<Item> itemsOrdenados = app.getInventario().getItems();
+
+		int auxCol = 2;
+		String[] columnas = new String[itemsOrdenados.get(0).getCantidades().size() + auxCol];
+		Object[][] data = new Object[itemsOrdenados.size()][itemsOrdenados.get(0).getCantidades().size() + auxCol];
+
+		for (int i = 0; i < columnas.length; i++) {
+
+			if (i == 0) {
+
+				columnas[i] = "Item";
+
+			} else if (i == 1) {
+
+				columnas[i] = "Desc. Item";
+
+			} else {
+
+				columnas[i] = i - 1 + "";
+
+			}
+
+		}
+
+		for (int i = 0; i < data.length; i++) {
+
+			for (int j = 0; j < data[0].length; j++) {
+
+				if (j == 0) {
+					data[i][j] = itemsOrdenados.get(i).getCodigo();
+				} else if (j == 1) {
+					data[i][j] = itemsOrdenados.get(i).getDescripcion();
+
+				} else {
+
+					data[i][j] = itemsOrdenados.get(i).getCantidades().get(j - 2);
+
+				}
+			}
+
+		}
+
+		JTable myTable = new JTable(data, columnas);
+		myTable.setEnabled(true);
+		myTable.getTableHeader().setResizingAllowed(true);
+		myTable.getTableHeader().setReorderingAllowed(false);
+		JScrollPane scrollPane = new JScrollPane(myTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		scrollPane.setSize(new Dimension(800, 500));
+		myTable.setFont(new Font("Garamond", 1, 16));
+
+		JFrame tabla = new JFrame();
+		tabla.setTitle("Tabla de Inventario de items por periodo");
+		tabla.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		tabla.getContentPane().add(scrollPane);
+		tabla.setSize(scrollPane.getSize());
+		tabla.setVisible(true);
+
+	}
+
 	// Obtiene la leyenda X para realizar la gráfica lineal
+
 	public ArrayList<String> leyendaX() {
 
 		ArrayList<String> leyenda = new ArrayList<>();
@@ -228,9 +349,9 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-		if (items.getSelectedIndex() > 0) {
+		if (items.getSelectedIndex() >= 0) {
 			int selected = items.getSelectedIndex();
-			Item item = app.getInventario().getItems().get(selected - 1);
+			Item item = app.getInventario().getItems().get(selected);
 
 			for (int i = 0; i < item.getCantidades().size(); i++) {
 				dataset.addValue(item.getCantidades().get(i), "Cantidades", leyenda.get(i));
@@ -259,6 +380,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 	// Carga todos los procesos del programa para el analisis de los datos.
 	public void analizarDatos(FileInputStream fs) throws IOException {
 
+		app.setInventario(new Inventario());
 		app.getInventario().setWorkbook(new XSSFWorkbook(fs));
 		app.getInventario().leerArchivo();
 		app.getInventario().fillCantidadesItemPorPeriodo();
@@ -300,6 +422,9 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 					analizarDatos(fs);
 
+					JOptionPane.showMessageDialog(null, "El archivo se ha cargado correctamente!", "Info",
+							JOptionPane.INFORMATION_MESSAGE);
+
 				}
 
 			} catch (Exception ex) {
@@ -312,18 +437,18 @@ public class PanelInfo extends JPanel implements ActionListener {
 		// Para la seleccion de los items.
 		if (e.getSource().equals(items)) {
 
-			if (items.getSelectedIndex() != 0) {
+			if (items.getSelectedIndex() >= 0) {
 
 				Inventario inv = app.getInventario();
 
 				// Formato a dos decimales
 				DecimalFormat df = new DecimalFormat("0.00");
 
-				txtCVD.setText(" " + df.format(inv.getItems().get(items.getSelectedIndex() - 1).CVD()));
-				txtClase.setText(inv.getItems().get(items.getSelectedIndex() - 1).getClase() + "");
-				txtPDemanda.setText(inv.getItems().get(items.getSelectedIndex() - 1).getPatronDemanda());
+				txtCVD.setText(" " + df.format(inv.getItems().get(items.getSelectedIndex()).CVD()));
+				txtClase.setText(inv.getItems().get(items.getSelectedIndex()).getClase() + "");
+				txtPDemanda.setText(inv.getItems().get(items.getSelectedIndex()).getPatronDemanda());
 
-				if (inv.getItems().get(items.getSelectedIndex() - 1).isStock()) {
+				if (inv.getItems().get(items.getSelectedIndex()).isStock()) {
 
 					butStock.setText("EN STOCK");
 					butStock.setBackground(Color.GREEN.brighter());
@@ -347,6 +472,14 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		}
 
+		if (e.getSource().equals(comboOrdenarItems)) {
+
+			int criterio = comboOrdenarItems.getSelectedIndex();
+
+			ordenarPorCriterio(criterio);
+
+		}
+
 		if (e.getSource().equals(butGrafica)) {
 
 			if (app.getInventario() != null && app.getInventario().getWorkbook() != null)
@@ -354,8 +487,29 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		}
 
+		if (e.getSource().equals(butVerTabla)) {
+
+			if (app.getInventario() != null) {
+
+				if (comboTablas.getSelectedIndex() == 0)
+					crearTablaInventarioItemPorPeriodo();
+
+			}
+		}
+
 		// Boton provisional para realizar pruebas.
 		if (e.getSource().equals(butTest)) {
+
+		}
+
+		if (e.getSource().equals(butCreditos)) {
+
+			String s = "Créditos:\n" + "Lider del proyecto: Andrés Felipe Cuastumal\r\n"
+					+ "Programador principal: Juan Camilo Vélez Olaya\r\n" + "Diseñadores de interfaz de usuario: \n"
+					+ "Andrés Felipe Cuastumal\r\n" + "" + "Juan Camilo Vélez Olaya\r\n"
+					+ "Especialistas en gestion de inventarios: \n" + "Camila Varela\r\n" + "Frederick Wutscher" + "";
+
+			JOptionPane.showMessageDialog(null, s, "Créditos", JOptionPane.INFORMATION_MESSAGE);
 
 		}
 
@@ -375,5 +529,53 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 	public JButton getButStock() {
 		return butStock;
+	}
+
+	public void ordenarPorCriterio(int criterio) {
+
+		// Por Volumen % -- "Por Clase" Primero los A, luego los B y por ultimo los C
+		if (criterio == 0) {
+
+			app.getInventario().ordenarItemsPorClase();
+			items.removeAllItems();
+			actualizarItems();
+			System.out.println(app.getInventario().getItems());
+
+		}
+
+		if (criterio == 1) {
+
+			app.getInventario().ordenarItemsPorCodigo();
+			items.removeAllItems();
+			actualizarItems();
+			System.out.println(app.getInventario().getItems());
+		}
+
+		if (criterio == 2) {
+
+			app.getInventario().ordenarItemsPorCVD();
+			items.removeAllItems();
+			actualizarItems();
+			System.out.println(app.getInventario().getItems());
+
+		}
+
+		if (criterio == 3) {
+
+			app.getInventario().ordenarItemsPorDescripcion();
+			items.removeAllItems();
+			actualizarItems();
+			System.out.println(app.getInventario().getItems());
+
+		}
+
+	}
+
+	public JLabel getLabIcono() {
+		return labIcono;
+	}
+
+	public JComboBox<String> getComboOrdenarItems() {
+		return comboOrdenarItems;
 	}
 }

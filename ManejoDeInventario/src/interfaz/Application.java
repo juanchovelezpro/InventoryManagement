@@ -47,8 +47,9 @@ public class Application extends JFrame {
 		setSize(660, 522);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 
-		inventario = new Inventario();
+		setIconImage(new ImageIcon("resources/logoIcesi.jpg").getImage());
 
 		try {
 
