@@ -44,7 +44,7 @@ public class Application extends JFrame {
 
 		getContentPane().setLayout(new BorderLayout());
 		setTitle("Manejo de Inventarios");
-		setSize(650, 480);
+		setSize(660, 522);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 

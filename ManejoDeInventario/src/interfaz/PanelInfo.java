@@ -40,9 +40,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 	 * Labels para el CVD
 	 */
 	private JLabel labCVD;
-	private JLabel labCVDCalculado;
 	private JLabel labClase;
-	private JLabel labClaseRes;
 
 	/**
 	 * Boton para hacer tests
@@ -55,6 +53,11 @@ public class PanelInfo extends JPanel implements ActionListener {
 	private JButton butGrafica;
 
 	private Application app;
+	private JLabel lblTDemanda;
+	private JTextField txtCVD;
+	private JTextField txtPDemanda;
+	private JTextField txtClase;
+	private JButton butStock;
 
 	public PanelInfo(Application app) {
 
@@ -69,32 +72,32 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		// Label CVD
 		labCVD = new JLabel("CVD:");
-		labCVD.setFont(new Font("Garamond", Font.BOLD, 20));
-		labCVD.setBounds(257, 165, 100, 20);
+		labCVD.setToolTipText("Coeficiente de variaci\u00F3n de demanda.");
+		labCVD.setFont(new Font("Garamond", Font.BOLD, 26));
+		labCVD.setBounds(6, 250, 83, 38);
 		add(labCVD);
 
-		// Label CVD Calculado
-		labCVDCalculado = new JLabel();
-		labCVDCalculado.setBounds(344, 165, 100, 20);
-		labCVDCalculado.setFont(new Font("Garamond", 1, 20));
-		add(labCVDCalculado);
-
 		// Boton grafica
-		butGrafica = new JButton("Graficar");
+		butGrafica = new JButton("Gr\u00E1fica Lineal - Cantidad de Item vs Per\u00EDodo");
+		butGrafica.setBackground(new Color(112, 128, 144));
+		butGrafica.setFont(new Font("Garamond", Font.BOLD, 14));
 		butGrafica.addActionListener(this);
-		butGrafica.setBounds(290, 297, 140, 46);
+		butGrafica.setBounds(0, 436, 328, 38);
 		add(butGrafica);
 
 		// Boton tester
 		butTest = new JButton("Test");
 		butTest.addActionListener(this);
-		butTest.setBounds(297, 76, 121, 50);
-		add(butTest);
+		butTest.setBounds(409, 332, 121, 50);
+//		add(butTest);
 
 		// Donde se colocan los items. (Lista)
 		items = new JComboBox<String>();
-		items.setFont(new Font("Garamond", Font.PLAIN, 18));
-		items.setBounds(12, 13, 686, 38);
+		items.setToolTipText("Lista de los items del inventario.");
+		items.setMaximumRowCount(6);
+		items.setBackground(new Color(25, 25, 112));
+		items.setFont(new Font("Garamond", Font.BOLD, 16));
+		items.setBounds(151, 133, 499, 38);
 		items.addItem("Items");
 		items.setSelectedIndex(0);
 		items.addActionListener(this);
@@ -102,20 +105,82 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		// Boton para abrir el chooser del excel.
 		butChooser = new JButton("Cargar Archivo");
-		butChooser.setFont(new Font("Garamond", Font.BOLD, 18));
-		butChooser.setBounds(0, 440, 753, 50);
+		butChooser.setToolTipText("Carga el archivo excel donde se encuentran los datos del inventario.");
+		butChooser.setBackground(new Color(119, 136, 153));
+		butChooser.setFont(new Font("Tw Cen MT", Font.BOLD, 16));
+		butChooser.setBounds(0, 108, 150, 63);
 		butChooser.addActionListener(this);
 		add(butChooser);
 
 		labClase = new JLabel("Clase:");
-		labClase.setFont(new Font("Garamond", Font.BOLD, 20));
-		labClase.setBounds(257, 226, 56, 16);
+		labClase.setFont(new Font("Garamond", Font.BOLD, 26));
+		labClase.setBounds(6, 323, 83, 38);
 		add(labClase);
 
-		labClaseRes = new JLabel("");
-		labClaseRes.setFont(new Font("Garamond", Font.BOLD, 20));
-		labClaseRes.setBounds(325, 215, 66, 27);
-		add(labClaseRes);
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(291, 108, 359, 26);
+		add(comboBox);
+
+		JLabel labTitulo = new JLabel("Inventory Management");
+		labTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		labTitulo.setFont(new Font("Elephant", Font.PLAIN, 44));
+		labTitulo.setBounds(115, 16, 514, 69);
+		add(labTitulo);
+
+		JLabel labIcono = new JLabel("");
+		labIcono.setBounds(6, 6, 100, 96);
+		add(labIcono);
+
+		JLabel labOrdenar = new JLabel("Ordenar items por:");
+		labOrdenar.setFont(new Font("Garamond", Font.BOLD, 16));
+		labOrdenar.setBounds(156, 108, 160, 32);
+		add(labOrdenar);
+
+		JLabel labAnalisis = new JLabel("Informaci\u00F3n del Item seleccionado:");
+		labAnalisis.setHorizontalAlignment(SwingConstants.CENTER);
+		labAnalisis.setFont(new Font("Elephant", Font.PLAIN, 17));
+		labAnalisis.setBounds(10, 193, 306, 38);
+		add(labAnalisis);
+
+		JSeparator separador = new JSeparator();
+		separador.setBackground(new Color(0, 0, 0));
+		separador.setOrientation(SwingConstants.VERTICAL);
+		separador.setBounds(334, 187, 20, 287);
+		add(separador);
+
+		lblTDemanda = new JLabel("P. Demanda:");
+		lblTDemanda.setFont(new Font("Garamond", Font.BOLD, 26));
+		lblTDemanda.setBounds(6, 288, 150, 38);
+		add(lblTDemanda);
+
+		butStock = new JButton("");
+		butStock.setToolTipText(
+				"Indica si el item se encuentra en \"Stock\"(Se pone en VERDE el boton )o \"En Pedido\" (El bot\u00F3n se pone ROJO)");
+		butStock.setFont(new Font("Garamond", Font.BOLD, 28));
+		butStock.setBounds(6, 368, 322, 38);
+		add(butStock);
+
+		txtCVD = new JTextField();
+		txtCVD.setFont(new Font("Garamond", Font.PLAIN, 24));
+		txtCVD.setEditable(false);
+		txtCVD.setHorizontalAlignment(SwingConstants.LEFT);
+		txtCVD.setBounds(88, 250, 240, 36);
+		add(txtCVD);
+		txtCVD.setColumns(10);
+
+		txtPDemanda = new JTextField();
+		txtPDemanda.setEditable(false);
+		txtPDemanda.setFont(new Font("Garamond", Font.PLAIN, 20));
+		txtPDemanda.setColumns(10);
+		txtPDemanda.setBounds(152, 288, 176, 36);
+		add(txtPDemanda);
+
+		txtClase = new JTextField();
+		txtClase.setEditable(false);
+		txtClase.setFont(new Font("Garamond", Font.PLAIN, 24));
+		txtClase.setColumns(10);
+		txtClase.setBounds(88, 327, 240, 36);
+		add(txtClase);
 
 	}
 
@@ -254,12 +319,29 @@ public class PanelInfo extends JPanel implements ActionListener {
 				// Formato a dos decimales
 				DecimalFormat df = new DecimalFormat("0.00");
 
-				labCVDCalculado.setText(" " + df.format(inv.getItems().get(items.getSelectedIndex() - 1).CVD()));
-				labClaseRes.setText(inv.getItems().get(items.getSelectedIndex() - 1).getClase() + "");
+				txtCVD.setText(" " + df.format(inv.getItems().get(items.getSelectedIndex() - 1).CVD()));
+				txtClase.setText(inv.getItems().get(items.getSelectedIndex() - 1).getClase() + "");
+				txtPDemanda.setText(inv.getItems().get(items.getSelectedIndex() - 1).getPatronDemanda());
+
+				if (inv.getItems().get(items.getSelectedIndex() - 1).isStock()) {
+
+					butStock.setText("EN STOCK");
+					butStock.setBackground(Color.GREEN.brighter());
+
+				} else {
+
+					butStock.setText("BAJO PEDIDO");
+					butStock.setBackground(Color.RED.brighter());
+
+				}
 
 			} else {
 
-				labCVDCalculado.setText("");
+				txtCVD.setText("");
+				txtClase.setText("");
+				txtPDemanda.setText("");
+				butStock.setText("");
+				butStock.setBackground(Color.GRAY.brighter());
 
 			}
 
@@ -279,4 +361,19 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 	}
 
+	public JTextField getTxtCVD() {
+		return txtCVD;
+	}
+
+	public JTextField getTxtClase() {
+		return txtClase;
+	}
+
+	public JTextField getTxtPDemanda() {
+		return txtPDemanda;
+	}
+
+	public JButton getButStock() {
+		return butStock;
+	}
 }
