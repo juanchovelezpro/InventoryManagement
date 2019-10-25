@@ -239,12 +239,15 @@ public class Inventario {
 
 	}
 
-	// Asigna a cada item segun la clase que sea, si es stock o bajo pedido.
-	public void asignarStock() {
+	// Calcula todos los CVD de los items y los asigna al item correspondiente.
+	// Además se define el stock y el patron de demanda.
+	public void asignarVariablesDeAnalisis() {
 
 		for (int i = 0; i < items.size(); i++) {
 
+			items.get(i).setCvd(items.get(i).CVD());
 			items.get(i).definirStock();
+			items.get(i).definirPatronDemanda();
 
 		}
 

@@ -30,6 +30,8 @@ public class Item implements Comparable<Item> {
 	private double volumenPorcentaje;
 	private char clase;
 	private boolean stock;
+	private double cvd;
+	private String patronDemanda;
 
 	public Item(int codigo, String descripcion) {
 
@@ -45,8 +47,10 @@ public class Item implements Comparable<Item> {
 		descripcion = "";
 		clase = ' ';
 		volumenPorcentaje = 0.0;
+		cvd = 0.0;
 		referencia = "";
 		stock = false;
+		patronDemanda = "";
 
 		ordenesInterno = new ArrayList<>();
 		bodegas = new ArrayList<>();
@@ -67,12 +71,28 @@ public class Item implements Comparable<Item> {
 
 	}
 
+	public String getPatronDemanda() {
+		return patronDemanda;
+	}
+
+	public void setPatronDemanda(String patronDemanda) {
+		this.patronDemanda = patronDemanda;
+	}
+
 	public ArrayList<String> getOrdenesInterno() {
 		return ordenesInterno;
 	}
 
 	public void setOrdenesInterno(ArrayList<String> ordenesInterno) {
 		this.ordenesInterno = ordenesInterno;
+	}
+
+	public double getCvd() {
+		return cvd;
+	}
+
+	public void setCvd(double cvd) {
+		this.cvd = cvd;
 	}
 
 	public boolean isStock() {
@@ -246,6 +266,20 @@ public class Item implements Comparable<Item> {
 		cvd = desviacion / promedio;
 
 		return cvd;
+
+	}
+
+	public void definirPatronDemanda() {
+
+		if (cvd >= 1) {
+
+			patronDemanda = "Errática";
+
+		} else {
+
+			patronDemanda = "Horizontal";
+
+		}
 
 	}
 
