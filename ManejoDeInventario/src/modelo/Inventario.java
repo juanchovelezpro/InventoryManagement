@@ -1,7 +1,13 @@
 package modelo;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -161,6 +167,25 @@ public class Inventario {
 
 	}
 
+	public void obtenerCantidadesPorPeriodo() {
+
+//		for (int i = 0; i < items.size(); i++) {
+//
+//			for (int j = 0; j < items.get(i).getFechas().size(); j++) {
+//
+				Calendar cal = Calendar.getInstance();
+				Date date = items.get(0).getFechas().get(0);
+//
+//				cal.setTime(date);
+				
+				System.out.println(cal.get(Calendar.MONTH));
+
+//			}
+//
+//		}
+
+	}
+
 	// Lee la primera hoja del excel para calcular CVD y sacar las graficas de
 	// cantidad de item por periodo.
 
@@ -223,18 +248,40 @@ public class Inventario {
 	public Item buscarItem(int codigo) {
 
 		Item item = null;
+		boolean encontrado = false;
 
-		for (int i = 0; i < items.size(); i++) {
+		for (int i = 0; i < items.size() && !encontrado; i++) {
 
 			if (items.get(i).getCodigo() == codigo) {
 
 				item = items.get(i);
+				encontrado = true;
 
 			}
 
 		}
 
 		return item;
+
+	}
+
+	public boolean existe(int codigo) {
+
+		boolean si = false;
+		boolean stop = false;
+
+		for (int i = 0; i < items.size() && !stop; i++) {
+
+			if (items.get(i).getCodigo() == codigo) {
+
+				si = true;
+				stop = true;
+
+			}
+
+		}
+
+		return si;
 
 	}
 
@@ -285,6 +332,127 @@ public class Inventario {
 
 			}
 
+		}
+
+	}
+
+	// Lectura de todos los datos (Base de datos completa sin modificacion)
+	public void leerArchivo() {
+
+		XSSFSheet sheet = workbook.getSheetAt(0);
+
+		Iterator<Row> rows = sheet.iterator();
+		rows.next();
+
+		while (rows.hasNext()) {
+
+			Row row = rows.next();
+			boolean agregar = false;
+
+			Iterator<Cell> cells = row.cellIterator();
+
+			int contadorCeldas = 0;
+			Item item = new Item();
+
+			while (cells.hasNext()) {
+
+				Cell cell = cells.next();
+
+				switch (contadorCeldas) {
+
+				case 0:
+//					item.getOrdenInterno().add(cell.toString());
+					break;
+
+				case 1:
+
+					int codigo = (int) Double.parseDouble(cell.toString());
+
+					if (existe(codigo)) {
+
+						item = buscarItem(codigo);
+
+					} else {
+
+						agregar = true;
+						item.setCodigo(codigo);
+
+					}
+
+					break;
+
+				case 2:
+					item.setReferencia(cell.toString());
+					break;
+
+				case 3:
+					item.setDescripcion(cell.toString());
+					break;
+
+				case 4:
+					item.getBodegas().add(cell.toString());
+					break;
+
+				case 5:
+					item.getUbicaciones().add(cell.toString());
+					break;
+
+				case 6:
+					item.getEntradas().add(Double.parseDouble(cell.toString()));
+					break;
+
+				case 7:
+
+					Date date = cell.getDateCellValue();
+
+					item.getFechas().add(date);
+
+					break;
+
+				case 8:
+					item.getSalidasDeInventario().add((int) Double.parseDouble((cell.toString())));
+					break;
+
+				case 9:
+					item.getNetosInventario().add((int) Double.parseDouble(cell.toString()));
+					break;
+
+				case 10:
+					item.getCostosEntradas().add(Double.parseDouble(cell.toString()));
+					break;
+
+				case 11:
+					item.getCostosSalidas().add(Double.parseDouble(cell.toString()));
+					break;
+
+				case 12:
+					item.getCostosNetos().add(Double.parseDouble(cell.toString()));
+					break;
+
+				case 13:
+					item.getCostosUnitarios().add(Double.parseDouble(cell.toString()));
+					break;
+
+				case 14:
+					item.getcCostos().add(cell.toString());
+					break;
+
+				case 15:
+					item.getDescCCostos().add(cell.toString());
+					break;
+
+				case 16:
+					item.getCostosUnitariosReExpresion().add(Double.parseDouble(cell.toString()));
+					break;
+				}
+
+				contadorCeldas++;
+
+			}
+
+			if (agregar) {
+				items.add(item);
+			}
 		}
 
 	}

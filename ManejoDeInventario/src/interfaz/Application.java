@@ -253,12 +253,16 @@ public class Application extends JFrame implements ActionListener {
 					inventario = new Inventario();
 
 					inventario.setWorkbook(new XSSFWorkbook(fs));
-					inventario.obtenerItems();
-					inventario.itemsParaClasificacion();
-					inventario.calcularPorcentajesDeVolumenes();
-					inventario.asignarClasesItems();
+					inventario.leerArchivo();
+
+//					inventario.obtenerItems();
+//					inventario.itemsParaClasificacion();
+//					inventario.calcularPorcentajesDeVolumenes();
+//					inventario.asignarClasesItems();
 
 					actualizarItems();
+					
+					System.out.println(inventario.getItems().size());
 
 				}
 

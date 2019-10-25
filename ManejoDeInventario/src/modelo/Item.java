@@ -1,17 +1,33 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.math3.stat.StatUtils;
 
 public class Item implements Comparable<Item> {
 
+	private ArrayList<String> ordenesInterno;
 	private int codigo;
+	private String referencia;
 	private String descripcion;
-	private ArrayList<Double> cantidades;
-	private ArrayList<Double> costosUnitarios;
+	private ArrayList<String> bodegas;
+	private ArrayList<String> ubicaciones;
+	private ArrayList<Double> entradas;
+	private ArrayList<Date> fechas;
 	private ArrayList<Integer> salidasDeInventario;
+	private ArrayList<Integer> netosInventario;
+	private ArrayList<Double> costosEntradas;
+	private ArrayList<Double> costosSalidas;
+	private ArrayList<Double> costosNetos;
+	private ArrayList<Double> costosUnitarios;
+	private ArrayList<String> cCostos;
+	private ArrayList<String> descCCostos;
+	private ArrayList<Double> costosUnitariosReExpresion;
+
+	private ArrayList<Double> cantidades;
+
 	private double volumenPorcentaje;
 
 	private char clase;
@@ -29,10 +45,130 @@ public class Item implements Comparable<Item> {
 		codigo = 0;
 		descripcion = "";
 		clase = ' ';
-		cantidades = new ArrayList<>();
-		costosUnitarios = new ArrayList<>();
-		salidasDeInventario = new ArrayList<>();
+		volumenPorcentaje = 0.0;
+		referencia = "";
 
+		ordenesInterno = new ArrayList<>();
+		bodegas = new ArrayList<>();
+		ubicaciones = new ArrayList<>();
+		entradas = new ArrayList<>();
+		fechas = new ArrayList<>();
+		salidasDeInventario = new ArrayList<>();
+		netosInventario = new ArrayList<>();
+		costosEntradas = new ArrayList<>();
+		costosSalidas = new ArrayList<>();
+		costosNetos = new ArrayList<>();
+		costosUnitarios = new ArrayList<>();
+		cCostos = new ArrayList<>();
+		descCCostos = new ArrayList<>();
+		costosUnitariosReExpresion = new ArrayList<>();
+
+		cantidades = new ArrayList<>();
+
+	}
+
+	public ArrayList<String> getOrdenInterno() {
+		return ordenesInterno;
+	}
+
+	public void setOrdenInterno(ArrayList<String> ordenesInterno) {
+		this.ordenesInterno = ordenesInterno;
+	}
+
+	public String getReferencia() {
+		return referencia;
+	}
+
+	public void setReferencia(String referencia) {
+		this.referencia = referencia;
+	}
+
+	public ArrayList<String> getBodegas() {
+		return bodegas;
+	}
+
+	public void setBodegas(ArrayList<String> bodegas) {
+		this.bodegas = bodegas;
+	}
+
+	public ArrayList<String> getUbicaciones() {
+		return ubicaciones;
+	}
+
+	public void setUbicaciones(ArrayList<String> ubicaciones) {
+		this.ubicaciones = ubicaciones;
+	}
+
+	public ArrayList<Double> getEntradas() {
+		return entradas;
+	}
+
+	public void setEntradas(ArrayList<Double> entradas) {
+		this.entradas = entradas;
+	}
+
+	public ArrayList<Date> getFechas() {
+		return fechas;
+	}
+
+	public void setFechas(ArrayList<Date> fechas) {
+		this.fechas = fechas;
+	}
+
+	public ArrayList<Integer> getNetosInventario() {
+		return netosInventario;
+	}
+
+	public void setNetosInventario(ArrayList<Integer> netosInventario) {
+		this.netosInventario = netosInventario;
+	}
+
+	public ArrayList<Double> getCostosEntradas() {
+		return costosEntradas;
+	}
+
+	public void setCostosEntradas(ArrayList<Double> costosEntradas) {
+		this.costosEntradas = costosEntradas;
+	}
+
+	public ArrayList<Double> getCostosSalidas() {
+		return costosSalidas;
+	}
+
+	public void setCostosSalidas(ArrayList<Double> costosSalidas) {
+		this.costosSalidas = costosSalidas;
+	}
+
+	public ArrayList<Double> getCostosNetos() {
+		return costosNetos;
+	}
+
+	public void setCostosNetos(ArrayList<Double> costosNetos) {
+		this.costosNetos = costosNetos;
+	}
+
+	public ArrayList<String> getcCostos() {
+		return cCostos;
+	}
+
+	public void setcCostos(ArrayList<String> cCostos) {
+		this.cCostos = cCostos;
+	}
+
+	public ArrayList<String> getDescCCostos() {
+		return descCCostos;
+	}
+
+	public void setDescCCostos(ArrayList<String> descCCostos) {
+		this.descCCostos = descCCostos;
+	}
+
+	public ArrayList<Double> getCostosUnitariosReExpresion() {
+		return costosUnitariosReExpresion;
+	}
+
+	public void setCostosUnitariosReExpresion(ArrayList<Double> costosUnitariosReExpresion) {
+		this.costosUnitariosReExpresion = costosUnitariosReExpresion;
 	}
 
 	public ArrayList<Double> getCostosUnitarios() {
