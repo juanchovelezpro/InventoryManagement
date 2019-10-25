@@ -20,7 +20,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 	private JLabel labCVDCalculado;
 	private JLabel labClase;
 	private JLabel labClaseRes;
-	
+
 	/**
 	 * Boton para hacer tests
 	 */
@@ -32,6 +32,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 	private JButton butGrafica;
 
 	private Application app;
+	private JLabel lblNewLabel;
 
 	public PanelInfo(Application app) {
 
@@ -64,8 +65,12 @@ public class PanelInfo extends JPanel implements ActionListener {
 		butTest = new JButton("Test");
 		butTest.setActionCommand(TEST);
 		butTest.addActionListener(this);
-		butTest.setBounds(297, 76, 121, 50);
 		
+		lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(76, 181, 56, 16);
+		add(lblNewLabel);
+		butTest.setBounds(297, 76, 121, 50);
+
 		add(butTest);
 		add(butGrafica);
 		add(labCVD);
@@ -119,17 +124,21 @@ public class PanelInfo extends JPanel implements ActionListener {
 				app.crearGraficaLineal();
 
 		}
-		
+
 		if (command.equals(TEST)) {
 
 //			app.testApp();
-			app.getInventario().obtenerCantidadesPorPeriodo(2018,0);
-			
-			System.out.println(app.getInventario().getItems().get(0));
-			
-			System.out.println(app.getInventario().getItems().get(0).getCantidades().get(0));
+
+			for (int i = 0; i < app.getInventario().getItems().size(); i++) {
+
+				System.out.println(app.getInventario().getItems().get(i).getCantidades());
+				System.out.println(app.getInventario().getItems().get(i).getCantidades().size());
+			}
 
 		}
 
+	}
+	public JLabel getLblNewLabel() {
+		return lblNewLabel;
 	}
 }

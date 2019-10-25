@@ -12,27 +12,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 
-import org.apache.poi.*;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbookFactory;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import comparadores.OrdenarItemsPorVolumenPorcentaje;
 import modelo.Inventario;
 import modelo.Item;
 
@@ -163,20 +153,11 @@ public class Application extends JFrame implements ActionListener {
 
 		ArrayList<String> leyenda = new ArrayList<>();
 
-		XSSFSheet sheet = inventario.getWorkbook().getSheetAt(0);
+		int periodos = inventario.getItems().get(0).getCantidades().size();
 
-		Iterator<Row> rows = sheet.iterator();
+		for (int i = 1; i <= periodos; i++) {
 
-		rows.next();
-		Row row = rows.next();
-
-		Iterator<Cell> cells = row.cellIterator();
-
-		while (cells.hasNext()) {
-
-			Cell cell = cells.next();
-
-			leyenda.add(cell.toString());
+			leyenda.add(i + "");
 
 		}
 
@@ -223,6 +204,7 @@ public class Application extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
+		
 		String command = e.getActionCommand();
 
 		// Para cargar el archivo en el programa.
@@ -254,15 +236,11 @@ public class Application extends JFrame implements ActionListener {
 
 					inventario.setWorkbook(new XSSFWorkbook(fs));
 					inventario.leerArchivo();
-
-//					inventario.obtenerItems();
-//					inventario.itemsParaClasificacion();
-//					inventario.calcularPorcentajesDeVolumenes();
-//					inventario.asignarClasesItems();
+					inventario.fillCantidadesItemPorPeriodo();
+					inventario.calcularPorcentajesDeVolumenes();
+					inventario.asignarClasesItems();
 
 					actualizarItems();
-					
-					System.out.println(inventario.getItems().size());
 
 				}
 

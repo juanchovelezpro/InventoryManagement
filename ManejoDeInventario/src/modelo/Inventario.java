@@ -40,16 +40,60 @@ public class Inventario {
 
 	public void fillYears() {
 
+		Calendar cal = Calendar.getInstance();
+
 		for (int i = 0; i < items.size(); i++) {
 
 			for (int j = 0; j < items.get(i).getFechas().size(); j++) {
 
-				
-				
-				
+				Date date = items.get(i).getFechas().get(j);
+
+				cal.setTime(date);
+
+				if (!years.contains(cal.get(Calendar.YEAR))) {
+
+					years.add(cal.get(Calendar.YEAR));
+
+				}
+
 			}
 
 		}
+
+		Collections.sort(years);
+
+	}
+
+	public int encontrarUltimoPeriodo() {
+
+		fillYears();
+
+		int periodo = 0;
+		Calendar cal = Calendar.getInstance();
+		int lastYear = years.get(years.size() - 1);
+
+		for (int i = 0; i < items.size(); i++) {
+
+			for (int j = 0; j < items.get(i).getFechas().size(); j++) {
+
+				Date date = items.get(i).getFechas().get(j);
+				cal.setTime(date);
+
+				if (cal.get(Calendar.YEAR) == lastYear) {
+
+					if (cal.get(Calendar.MONTH) > periodo) {
+
+						periodo = cal.get(Calendar.MONTH);
+
+					}
+
+				}
+
+			}
+
+		}
+
+		return periodo;
 
 	}
 
@@ -192,6 +236,8 @@ public class Inventario {
 
 	}
 
+	// Metodo para obtener las cantidades de un item en el inventario por periodo
+	// (Periodo: meses)
 	public void obtenerCantidadesPorPeriodo(int year, int month) {
 
 		for (int i = 0; i < items.size(); i++) {
@@ -222,60 +268,29 @@ public class Inventario {
 
 	}
 
-	// Lee la primera hoja del excel para calcular CVD y sacar las graficas de
-	// cantidad de item por periodo.
+	// Método para calcular cantidades de todos los items en el inventario por
+	// periodos.
+	public void fillCantidadesItemPorPeriodo() {
 
-	public void obtenerItems() {
+		int ultimo = encontrarUltimoPeriodo();
 
-		XSSFSheet sheet = workbook.getSheetAt(0);
+		for (int i = 0; i < years.size(); i++) {
 
-		Iterator<Row> rows = sheet.iterator();
+			if (years.get(i) != years.get(years.size() - 1)) {
+				for (int j = 0; j <= 11; j++) {
 
-		int x = 0;
+					obtenerCantidadesPorPeriodo(years.get(i), j);
 
-		// Para empezar a obtener los datos desde la fila 3.
-		while (x < 3) {
+				}
+			} else {
 
-			rows.next();
-			x++;
+				for (int k = 0; k <= ultimo; k++) {
 
-		}
-
-		while (rows.hasNext()) {
-
-			Row row = rows.next();
-
-			Iterator<Cell> cells = row.cellIterator();
-
-			int contadorCeldas = 0;
-			Item item = new Item();
-
-			while (cells.hasNext()) {
-
-				Cell cell = cells.next();
-
-				switch (contadorCeldas) {
-
-				case 0:
-					item.setCodigo((int) Double.parseDouble(cell.toString()));
-					break;
-
-				case 1:
-					item.setDescripcion(cell.toString());
-					break;
-
-				default:
-					item.getCantidades().add(Double.parseDouble(cell.toString()));
-					break;
+					obtenerCantidadesPorPeriodo(years.get(i), k);
 
 				}
 
-				contadorCeldas++;
-
 			}
-
-			items.add(item);
-
 		}
 
 	}
@@ -318,57 +333,6 @@ public class Inventario {
 		}
 
 		return si;
-
-	}
-
-	// Lee la segunda hoja del archivo excel para clasificar los items.
-	public void itemsParaClasificacion() {
-
-		XSSFSheet sheet = workbook.getSheetAt(1);
-
-		Iterator<Row> rows = sheet.iterator();
-
-		rows.next();
-
-		while (rows.hasNext()) {
-
-			Row row = rows.next();
-
-			Iterator<Cell> cells = row.cellIterator();
-			Item item = null;
-			int contadorCeldas = 0;
-
-			while (cells.hasNext()) {
-
-				Cell cell = cells.next();
-
-				switch (contadorCeldas) {
-
-				case 0:
-
-					item = buscarItem((int) Double.parseDouble(cell.toString()));
-
-					break;
-
-				case 1:
-
-					item.getSalidasDeInventario().add((int) Double.parseDouble(cell.toString()));
-
-					break;
-
-				case 2:
-
-					item.getCostosUnitarios().add(Double.parseDouble(cell.toString()));
-
-					break;
-
-				}
-
-				contadorCeldas++;
-
-			}
-
-		}
 
 	}
 
