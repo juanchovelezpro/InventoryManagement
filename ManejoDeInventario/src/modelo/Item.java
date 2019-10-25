@@ -25,12 +25,11 @@ public class Item implements Comparable<Item> {
 	private ArrayList<String> cCostos;
 	private ArrayList<String> descCCostos;
 	private ArrayList<Double> costosUnitariosReExpresion;
-
 	private ArrayList<Double> cantidades;
 
 	private double volumenPorcentaje;
-
 	private char clase;
+	private boolean stock;
 
 	public Item(int codigo, String descripcion) {
 
@@ -47,6 +46,7 @@ public class Item implements Comparable<Item> {
 		clase = ' ';
 		volumenPorcentaje = 0.0;
 		referencia = "";
+		stock = false;
 
 		ordenesInterno = new ArrayList<>();
 		bodegas = new ArrayList<>();
@@ -65,6 +65,22 @@ public class Item implements Comparable<Item> {
 
 		cantidades = new ArrayList<>();
 
+	}
+
+	public ArrayList<String> getOrdenesInterno() {
+		return ordenesInterno;
+	}
+
+	public void setOrdenesInterno(ArrayList<String> ordenesInterno) {
+		this.ordenesInterno = ordenesInterno;
+	}
+
+	public boolean isStock() {
+		return stock;
+	}
+
+	public void setStock(boolean stock) {
+		this.stock = stock;
 	}
 
 	public ArrayList<String> getOrdenInterno() {
@@ -244,6 +260,21 @@ public class Item implements Comparable<Item> {
 		}
 
 		return volumen;
+
+	}
+
+	// Si el item se encuentra en stock o bajo pedido.
+	public void definirStock() {
+
+		if (clase == 'C') {
+
+			stock = true;
+
+		} else {
+
+			stock = false;
+
+		}
 
 	}
 

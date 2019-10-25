@@ -239,6 +239,7 @@ public class Application extends JFrame implements ActionListener {
 					inventario.fillCantidadesItemPorPeriodo();
 					inventario.calcularPorcentajesDeVolumenes();
 					inventario.asignarClasesItems();
+					inventario.asignarStock();
 
 					actualizarItems();
 

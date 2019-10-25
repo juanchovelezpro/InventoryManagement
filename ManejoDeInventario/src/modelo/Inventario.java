@@ -121,6 +121,7 @@ public class Inventario {
 		this.workbook = workbook;
 	}
 
+	// Retorna los items organizados por porcentaje de volumen
 	public ArrayList<Item> itemsOrganizadosPorVolumenPorcentaje() {
 
 		ArrayList<Item> organizados = items;
@@ -131,6 +132,7 @@ public class Inventario {
 
 	}
 
+	// Calcula el porcentaje de volumen de todos los items.
 	public void calcularPorcentajesDeVolumenes() {
 
 		double volumenTotal = 0.0;
@@ -154,6 +156,7 @@ public class Inventario {
 
 	}
 
+	// Calcula los volumenes acumulados de los items.
 	public ArrayList<Double> getVolumenesAcumulados() {
 
 		ArrayList<Item> itemsOrganizados = itemsOrganizadosPorVolumenPorcentaje();
@@ -233,6 +236,17 @@ public class Inventario {
 		}
 
 		items = itemsOrganizados;
+
+	}
+
+	// Asigna a cada item segun la clase que sea, si es stock o bajo pedido.
+	public void asignarStock() {
+
+		for (int i = 0; i < items.size(); i++) {
+
+			items.get(i).definirStock();
+
+		}
 
 	}
 

@@ -32,7 +32,6 @@ public class PanelInfo extends JPanel implements ActionListener {
 	private JButton butGrafica;
 
 	private Application app;
-	private JLabel lblNewLabel;
 
 	public PanelInfo(Application app) {
 
@@ -65,10 +64,6 @@ public class PanelInfo extends JPanel implements ActionListener {
 		butTest = new JButton("Test");
 		butTest.setActionCommand(TEST);
 		butTest.addActionListener(this);
-		
-		lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(76, 181, 56, 16);
-		add(lblNewLabel);
 		butTest.setBounds(297, 76, 121, 50);
 
 		add(butTest);
@@ -138,7 +133,5 @@ public class PanelInfo extends JPanel implements ActionListener {
 		}
 
 	}
-	public JLabel getLblNewLabel() {
-		return lblNewLabel;
-	}
+
 }
