@@ -345,10 +345,10 @@ public class Item implements Comparable<Item> {
 	@Override
 	public String toString() {
 
-//		return "Codigo: " + codigo + "| V:  " + String.format("%.2f", volumen()) + "| V%: "
-//				+ String.format("%.2f", getVolumenPorcentaje());
+		return "Codigo: " + codigo + "| V:  " + String.format("%.2f", volumen()) + "| V%: "
+				+ String.format("%.2f", getVolumenPorcentaje());
 		
-		return "Codigo: " + codigo +"  |  CVD: "+ String.format("%.2f", cvd) + " | Clase: "+ clase;
+//		return "Codigo: " + codigo +"  |  CVD: "+ String.format("%.2f", cvd) + " | Clase: "+ clase;
 
 	}
 

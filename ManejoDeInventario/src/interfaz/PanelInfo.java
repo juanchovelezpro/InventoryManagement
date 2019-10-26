@@ -3,8 +3,16 @@ package interfaz;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -30,6 +38,8 @@ public class PanelInfo extends JPanel implements ActionListener {
 	 * Para seleccionar el archivo de excel
 	 */
 	private JFileChooser fileChooser;
+
+	private JFileChooser fileSaver;
 
 	/**
 	 * Boton para abrir el chooser del archivo.
@@ -65,6 +75,9 @@ public class PanelInfo extends JPanel implements ActionListener {
 	private JLabel labTablas;
 	private JLabel labVersion;
 	private JButton butCreditos;
+	private JButton butHelp;
+	private JButton butArchivoPlantilla;
+	private JButton butArchivoEjemploFormato;
 
 	public PanelInfo(Application app) {
 
@@ -203,6 +216,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 		add(txtClase);
 
 		comboTablas = new JComboBox<>();
+		comboTablas.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		comboTablas.setToolTipText(
 				"Lista de las tablas que pueden ser \u00FAtiles para obtener informacion detallada del inventario.");
 		comboTablas.setBounds(345, 250, 300, 35);
@@ -213,7 +227,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 		butVerTabla = new JButton("Ver tabla");
 		butVerTabla.setToolTipText("Permite ver la tabla seleccionada en la lista de tablas.");
 		butVerTabla.setBackground(new Color(119, 136, 153));
-		butVerTabla.setFont(new Font("Garamond", Font.BOLD, 14));
+		butVerTabla.setFont(new Font("Garamond", Font.BOLD, 18));
 		butVerTabla.setBounds(345, 292, 300, 36);
 		butVerTabla.addActionListener(this);
 		add(butVerTabla);
@@ -235,9 +249,34 @@ public class PanelInfo extends JPanel implements ActionListener {
 		butCreditos.setToolTipText("Muestra las personas que colaboraron en el proyecto y los cargos.");
 		butCreditos.setFont(new Font("Garamond", Font.BOLD, 16));
 		butCreditos.setBackground(new Color(128, 128, 128));
-		butCreditos.setBounds(384, 451, 90, 28);
+		butCreditos.setBounds(417, 451, 90, 28);
 		butCreditos.addActionListener(this);
 		add(butCreditos);
+
+		butHelp = new JButton("Help");
+		butHelp.setToolTipText("Instrucciones para el manejo correcto del programa.");
+		butHelp.setBackground(new Color(128, 128, 128));
+		butHelp.setFont(new Font("Garamond", Font.BOLD, 16));
+		butHelp.setBounds(340, 451, 77, 28);
+		butHelp.addActionListener(this);
+		add(butHelp);
+
+		butArchivoPlantilla = new JButton("Archivo Excel Plantilla");
+		butArchivoPlantilla.setToolTipText(
+				"Descarga la plantilla, que es un archivo excel que muestra como tal el archivo que lee el programa. (Archivos con diferente formato a la plantilla no los lee el programa)");
+		butArchivoPlantilla.setBackground(new Color(0, 128, 0));
+		butArchivoPlantilla.setFont(new Font("Ebrima", Font.BOLD, 12));
+		butArchivoPlantilla.setBounds(349, 355, 301, 28);
+		butArchivoPlantilla.addActionListener(this);
+		add(butArchivoPlantilla);
+
+		butArchivoEjemploFormato = new JButton("Archivo Excel Ejemplo con datos.");
+		butArchivoEjemploFormato
+				.setToolTipText("Descarga un ejemplo con datos de archivo excel plantilla que lee el programa.");
+		butArchivoEjemploFormato.setFont(new Font("Ebrima", Font.BOLD, 12));
+		butArchivoEjemploFormato.setBackground(new Color(0, 128, 0));
+		butArchivoEjemploFormato.setBounds(349, 395, 301, 28);
+		add(butArchivoEjemploFormato);
 
 	}
 
@@ -388,7 +427,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 		app.getInventario().asignarClasesItems();
 		app.getInventario().asignarVariablesDeAnalisis();
 
-		actualizarItems();
+		ordenarPorCriterio(comboOrdenarItems.getSelectedIndex());
 
 	}
 
@@ -434,6 +473,20 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		}
 
+		if (e.getSource().equals(butArchivoPlantilla)) {
+
+			fileSaver = new JFileChooser();
+			int op = fileSaver.showSaveDialog(null);
+			fileSaver.isVisible();
+
+			if (op == JFileChooser.APPROVE_OPTION) {
+
+				guardarArchivo(fileSaver.getSelectedFile().getPath() + ".xlsx");
+
+			}
+
+		}
+
 		// Para la seleccion de los items.
 		if (e.getSource().equals(items)) {
 
@@ -474,16 +527,24 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		if (e.getSource().equals(comboOrdenarItems)) {
 
-			int criterio = comboOrdenarItems.getSelectedIndex();
+			if (app.getInventario() != null) {
+				int criterio = comboOrdenarItems.getSelectedIndex();
 
-			ordenarPorCriterio(criterio);
+				ordenarPorCriterio(criterio);
+			}
 
 		}
 
 		if (e.getSource().equals(butGrafica)) {
 
-			if (app.getInventario() != null && app.getInventario().getWorkbook() != null)
+			if (app.getInventario() != null && app.getInventario().getWorkbook() != null) {
 				crearGraficaLineal();
+			} else {
+
+				JOptionPane.showMessageDialog(null, "Aún no se ha cargado un archivo", "Error",
+						JOptionPane.ERROR_MESSAGE);
+
+			}
 
 		}
 
@@ -493,6 +554,11 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 				if (comboTablas.getSelectedIndex() == 0)
 					crearTablaInventarioItemPorPeriodo();
+
+			} else {
+
+				JOptionPane.showMessageDialog(null, "Aún no se ha cargado un archivo", "Error",
+						JOptionPane.ERROR_MESSAGE);
 
 			}
 		}
@@ -511,6 +577,50 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 			JOptionPane.showMessageDialog(null, s, "Créditos", JOptionPane.INFORMATION_MESSAGE);
 
+		}
+
+		if (e.getSource().equals(butHelp)) {
+
+			String ayuda = "El programa lee solo archivos del mismo formato que tiene el Archivo Excel Plantilla, es decir, cualquier archivo distinto al de la plantilla no lo leerá el programa.\n"
+					+ "Otra instrucción a tener en cuenta es si el archivo a cargar tiene varias hojas, asegurese de tener en la primera hoja del archivo excel, la que tiene el formato igual al de la plantilla."
+					+ " En la hoja con formato de la plantilla se pueden agregar la cantidad de items que se requieran, "
+					+ "es decir no hay limite de items. Solo se deben llenar las celdas que corresponden a los datos de un item, cualquier otra celda que no se encuentra en la tabla de los items y tenga algun dato, el programa no leerá correctamente el archivo. "
+					+ "Todos los campos que requiere un item deben de estar rellenos segun el formato de la celda. No pueden haber celdas vacias,"
+					+ " de lo contrario el programa no leerá correctamente los datos. "
+					+ "Si cumple todo lo anterior y no se lee el archivo, delimite la tabla de los items en el archivo excel, borrando el formato de todas las celdas que se encuentran fuera de la tabla de items.";
+
+			JFrame aux = new JFrame();
+			aux.setTitle("Help");
+			aux.setSize(475, 300);
+			aux.setResizable(false);
+			JTextArea ta = new JTextArea(ayuda);
+			ta.setWrapStyleWord(true);
+			ta.setFont(new Font("Garamond", 1, 18));
+			ta.setEditable(false);
+			ta.setSize(400, 400);
+			ta.setLineWrap(true);
+			JScrollPane sc = new JScrollPane(ta);
+			sc.setPreferredSize(new Dimension(400, 200));
+			sc.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			aux.getContentPane().add(sc);
+			aux.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			aux.setVisible(true);
+
+		}
+
+	}
+
+	public void guardarArchivo(String ruta) {
+
+		try {
+
+			XSSFWorkbook wb = new XSSFWorkbook(new File("Plantilla.xlsx"));
+			FileOutputStream out = new FileOutputStream(ruta);
+			wb.write(out);
+			out.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -539,7 +649,6 @@ public class PanelInfo extends JPanel implements ActionListener {
 			app.getInventario().ordenarItemsPorClase();
 			items.removeAllItems();
 			actualizarItems();
-			System.out.println(app.getInventario().getItems());
 
 		}
 
@@ -548,7 +657,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 			app.getInventario().ordenarItemsPorCodigo();
 			items.removeAllItems();
 			actualizarItems();
-			System.out.println(app.getInventario().getItems());
+
 		}
 
 		if (criterio == 2) {
@@ -556,7 +665,6 @@ public class PanelInfo extends JPanel implements ActionListener {
 			app.getInventario().ordenarItemsPorCVD();
 			items.removeAllItems();
 			actualizarItems();
-			System.out.println(app.getInventario().getItems());
 
 		}
 
@@ -565,7 +673,6 @@ public class PanelInfo extends JPanel implements ActionListener {
 			app.getInventario().ordenarItemsPorDescripcion();
 			items.removeAllItems();
 			actualizarItems();
-			System.out.println(app.getInventario().getItems());
 
 		}
 
@@ -577,5 +684,9 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 	public JComboBox<String> getComboOrdenarItems() {
 		return comboOrdenarItems;
+	}
+
+	public JButton getButArchivoPlantilla() {
+		return butArchivoPlantilla;
 	}
 }

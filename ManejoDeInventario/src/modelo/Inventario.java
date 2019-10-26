@@ -265,6 +265,14 @@ public class Inventario {
 
 		items = itemsOrganizados;
 
+		// Para probar Clasificacion
+//		for (int i = 0; i < items.size(); i++) {
+//
+//			System.out.println(items.get(i)+ " |  " + volumenesAcumulados.get(i));
+//			
+//
+//		}
+
 	}
 
 	// Calcula todos los CVD de los items y los asigna al item correspondiente.
