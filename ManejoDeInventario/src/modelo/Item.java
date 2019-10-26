@@ -263,7 +263,15 @@ public class Item implements Comparable<Item> {
 
 		desviacion = Math.sqrt(StatUtils.variance(getCantidadesDouble()));
 
-		cvd = desviacion / promedio;
+		if (promedio == 0) {
+
+			cvd = 0;
+
+		} else {
+
+			cvd = desviacion / promedio;
+
+		}
 
 		return cvd;
 
@@ -347,7 +355,7 @@ public class Item implements Comparable<Item> {
 
 		return "Codigo: " + codigo + "| V:  " + String.format("%.2f", volumen()) + "| V%: "
 				+ String.format("%.2f", getVolumenPorcentaje());
-		
+
 //		return "Codigo: " + codigo +"  |  CVD: "+ String.format("%.2f", cvd) + " | Clase: "+ clase;
 
 	}
