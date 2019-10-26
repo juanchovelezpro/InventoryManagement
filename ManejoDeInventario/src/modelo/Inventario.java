@@ -268,7 +268,7 @@ public class Inventario {
 		// Para probar Clasificacion
 //		for (int i = 0; i < items.size(); i++) {
 //
-//			System.out.println(items.get(i)+ " |  " + volumenesAcumulados.get(i));
+//			System.out.println(items.get(i)+ " |  " + volumenesAcumulados.get(i) + " | Clase: "+ items.get(i).getClase());
 //			
 //
 //		}
