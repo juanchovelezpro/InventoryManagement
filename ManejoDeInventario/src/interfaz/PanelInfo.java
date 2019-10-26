@@ -276,6 +276,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 		butArchivoEjemploFormato.setFont(new Font("Ebrima", Font.BOLD, 12));
 		butArchivoEjemploFormato.setBackground(new Color(0, 128, 0));
 		butArchivoEjemploFormato.setBounds(349, 395, 301, 28);
+		butArchivoEjemploFormato.add(this);
 		add(butArchivoEjemploFormato);
 
 	}
@@ -486,6 +487,20 @@ public class PanelInfo extends JPanel implements ActionListener {
 			}
 
 		}
+		
+		if(e.getSource().equals(butArchivoEjemploFormato)) {
+			
+			fileSaver = new JFileChooser();
+			int op = fileSaver.showSaveDialog(null);
+			fileSaver.isVisible();
+
+			if (op == JFileChooser.APPROVE_OPTION) {
+
+				guardarArchivoEjemplo(fileSaver.getSelectedFile().getPath() + ".xlsx");
+
+			}
+			
+		}
 
 		// Para la seleccion de los items.
 		if (e.getSource().equals(items)) {
@@ -610,6 +625,21 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 	}
 
+	public void guardarArchivoEjemplo(String ruta) {
+
+		try {
+
+			XSSFWorkbook wb = new XSSFWorkbook(new File("Ejemplo.xlsx"));
+			FileOutputStream out = new FileOutputStream(ruta);
+			wb.write(out);
+			out.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	public void guardarArchivo(String ruta) {
 
 		try {
