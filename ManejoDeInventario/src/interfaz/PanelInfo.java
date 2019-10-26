@@ -473,6 +473,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 			if (op == JFileChooser.APPROVE_OPTION) {
 
 				guardarArchivo(fileSaver.getSelectedFile().getPath() + ".xlsx");
+				System.out.println("Guardando");
 
 			}
 
