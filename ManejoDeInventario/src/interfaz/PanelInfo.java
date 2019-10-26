@@ -276,7 +276,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 		butArchivoEjemploFormato.setFont(new Font("Ebrima", Font.BOLD, 12));
 		butArchivoEjemploFormato.setBackground(new Color(0, 128, 0));
 		butArchivoEjemploFormato.setBounds(349, 395, 301, 28);
-		butArchivoEjemploFormato.add(this);
+		butArchivoEjemploFormato.addActionListener(this);
 		add(butArchivoEjemploFormato);
 
 	}
