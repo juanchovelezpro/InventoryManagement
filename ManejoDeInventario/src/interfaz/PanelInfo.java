@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -473,7 +474,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 			if (op == JFileChooser.APPROVE_OPTION) {
 
 				guardarArchivo(fileSaver.getSelectedFile().getPath() + ".xlsx");
-				System.out.println("Guardando");
+				JOptionPane.showMessageDialog(null, "Guardado en " + fileSaver.getSelectedFile().getPath(), "Aviso", 1);
 
 			}
 
@@ -606,7 +607,9 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		try {
 
-			XSSFWorkbook wb = new XSSFWorkbook(new File("Plantilla.xlsx"));
+			InputStream file = getClass().getResourceAsStream("/Plantilla.xlsx");
+
+			XSSFWorkbook wb = new XSSFWorkbook(file);
 			FileOutputStream out = new FileOutputStream(ruta);
 			wb.write(out);
 			out.close();
