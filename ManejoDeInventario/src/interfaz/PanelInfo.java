@@ -16,7 +16,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import javax.swing.*;
 
@@ -27,7 +26,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import comparadores.OrdenarItemsPorVolumenPorcentaje;
 import modelo.*;
 
 public class PanelInfo extends JPanel implements ActionListener {
@@ -223,7 +221,6 @@ public class PanelInfo extends JPanel implements ActionListener {
 				"Lista de las tablas que pueden ser \u00FAtiles para obtener informacion detallada del inventario.");
 		comboTablas.setBounds(345, 250, 300, 35);
 		comboTablas.addItem("Tabla de Inventario de Items por periodo");
-		comboTablas.addItem("Tabla de Clasificacion ABC");
 		comboTablas.addActionListener(this);
 		add(comboTablas);
 
@@ -351,69 +348,6 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		JFrame tabla = new JFrame();
 		tabla.setTitle("Tabla de Inventario de items por periodo");
-		tabla.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		tabla.getContentPane().add(scrollPane);
-		tabla.setSize(scrollPane.getSize());
-		tabla.setVisible(true);
-
-	}
-
-	public void crearTablaClasificacionABC() {
-
-		ArrayList<Item> itemsPorClase = app.getInventario().getItems();
-
-		Collections.sort(itemsPorClase, new OrdenarItemsPorVolumenPorcentaje());
-
-		String[] columnas = { "Item", "Volumen", "Volumen %", "Vol. Acumulado", "Clase" };
-		String[][] data = new String[itemsPorClase.size()][columnas.length];
-
-		for (int i = 0; i < data.length; i++) {
-
-			for (int j = 0; j < data[0].length; j++) {
-
-				switch (j) {
-				case 0:
-
-					data[i][j] = itemsPorClase.get(i).getCodigo() + "";
-
-					break;
-
-				case 1:
-					data[i][j] = String.format("%.2f", itemsPorClase.get(i).volumen());
-					break;
-
-				case 2:
-					data[i][j] = String.format("%.2f", itemsPorClase.get(i).getVolumenPorcentaje());
-					break;
-
-				case 3:
-					data[i][j] = String.format("%.2f", app.getInventario().getVolumenesAcumulados().get(i));
-					break;
-
-				case 4:
-					data[i][j] = data[i][j] = itemsPorClase.get(i).getClase() + "";
-					break;
-
-				default:
-					break;
-				}
-
-			}
-
-		}
-
-		JTable myTable = new JTable(data, columnas);
-		myTable.setEnabled(true);
-		myTable.getTableHeader().setResizingAllowed(true);
-		myTable.getTableHeader().setReorderingAllowed(false);
-		JScrollPane scrollPane = new JScrollPane(myTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		scrollPane.setSize(new Dimension(800, 500));
-		myTable.setFont(new Font("Garamond", 1, 16));
-
-		JFrame tabla = new JFrame();
-		tabla.setTitle("Tabla de Clasificacion ABC");
 		tabla.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		tabla.getContentPane().add(scrollPane);
 		tabla.setSize(scrollPane.getSize());
@@ -613,9 +547,6 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 				if (comboTablas.getSelectedIndex() == 0)
 					crearTablaInventarioItemPorPeriodo();
-
-				if (comboTablas.getSelectedIndex() == 1)
-					crearTablaClasificacionABC();
 
 			} else {
 
