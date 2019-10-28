@@ -49,7 +49,7 @@ public class Application extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
-		setIconImage(new ImageIcon("resources/logoIcesi.jpg").getImage());
+		setIconImage(new ImageIcon(getClass().getClassLoader().getResource("imagenes/logoIcesi.jpg")).getImage());
 
 		try {
 

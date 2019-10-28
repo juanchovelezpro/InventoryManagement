@@ -155,12 +155,12 @@ public class PanelInfo extends JPanel implements ActionListener {
 		labTitulo.setToolTipText("Software para la gesti\u00F3n de inventarios");
 		labTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		labTitulo.setFont(new Font("Elephant", Font.PLAIN, 44));
-		labTitulo.setBounds(39, 16, 565, 69);
+		labTitulo.setBounds(99, 20, 565, 69);
 		add(labTitulo);
 
 		labIcono = new JLabel("");
-		labIcono.setBounds(6, 6, 100, 96);
-//		labIcono.setIcon(ToolManager.cargarImagenIcon("resources/logoIcesi.jpg"));
+		labIcono.setBounds(10, 6, 100, 96);
+		labIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource("imagenes/logoIcesi.jpg")));
 		add(labIcono);
 
 		JLabel labOrdenar = new JLabel("Ordenar items por:");
@@ -676,7 +676,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		try {
 
-			InputStream file = getClass().getResourceAsStream("/Plantilla.xlsx");
+			InputStream file = getClass().getResourceAsStream("/archivos/Plantilla.xlsx");
 
 			XSSFWorkbook wb = new XSSFWorkbook(file);
 			FileOutputStream out = new FileOutputStream(ruta);
