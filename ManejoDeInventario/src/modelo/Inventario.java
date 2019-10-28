@@ -451,7 +451,14 @@ public class Inventario {
 					break;
 
 				case 6:
-					item.getEntradas().add(Double.parseDouble(cell.toString()));
+					if (cell.toString().equals("") || cell.toString() == null) {
+
+						item.getEntradas().add(0.0);
+
+					} else {
+						item.getEntradas().add(Double.parseDouble(cell.toString()));
+					}
+
 					break;
 
 				case 7:
@@ -463,27 +470,77 @@ public class Inventario {
 					break;
 
 				case 8:
-					item.getSalidasDeInventario().add((int) Double.parseDouble((cell.toString())));
+
+					if (cell.toString().equals("") || cell.toString() == null) {
+
+						item.getSalidasDeInventario().add(0);
+
+					} else {
+						item.getSalidasDeInventario().add((int) Double.parseDouble(cell.toString()));
+					}
+
 					break;
 
 				case 9:
-					item.getNetosInventario().add((int) Double.parseDouble(cell.toString()));
+
+					if (cell.toString().equals("") || cell.toString() == null) {
+
+						item.getNetosInventario().add(0);
+
+					} else {
+						item.getNetosInventario().add((int) Double.parseDouble(cell.toString()));
+					}
+
 					break;
 
 				case 10:
-					item.getCostosEntradas().add(Double.parseDouble(cell.toString()));
+
+					if (cell.toString().equals("") || cell.toString() == null) {
+
+						item.getCostosEntradas().add(0.0);
+
+					} else {
+						item.getCostosEntradas().add(Double.parseDouble(cell.toString()));
+					}
+
 					break;
 
 				case 11:
-					item.getCostosSalidas().add(Double.parseDouble(cell.toString()));
+
+					if (cell.toString().equals("") || cell.toString() == null) {
+
+						item.getCostosSalidas().add(0.0);
+
+					} else {
+						item.getCostosSalidas().add(Double.parseDouble(cell.toString()));
+					}
+
 					break;
 
 				case 12:
-					item.getCostosNetos().add(Double.parseDouble(cell.toString()));
+
+					if (cell.toString().equals("") || cell.toString() == null) {
+
+						item.getCostosNetos().add(0.0);
+
+					} else {
+						item.getCostosNetos().add(Double.parseDouble(cell.toString()));
+					}
+
 					break;
 
 				case 13:
-					item.getCostosUnitarios().add(Double.parseDouble(cell.toString()));
+
+					if (cell.toString().equals("") || cell.toString() == null) {
+
+						item.getCostosUnitarios().add(0.0);
+
+					} else {
+
+						item.getCostosUnitarios().add(Double.parseDouble(cell.toString()));
+
+					}
+
 					break;
 
 				case 14:
@@ -495,7 +552,14 @@ public class Inventario {
 					break;
 
 				case 16:
-					item.getCostosUnitariosReExpresion().add(Double.parseDouble(cell.toString()));
+					if (cell.toString().equals("") || cell.toString() == null) {
+
+						item.getCostosUnitariosReExpresion().add(0.0);
+
+					} else {
+						item.getCostosUnitariosReExpresion().add(Double.parseDouble(cell.toString()));
+					}
+
 					break;
 				}
 
