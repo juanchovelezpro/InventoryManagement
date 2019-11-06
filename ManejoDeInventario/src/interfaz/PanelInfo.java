@@ -299,6 +299,32 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 		ArrayList<Item> itemsOrdenados = app.getInventario().getItems();
 
+		String[] columnasAuxPeriodos = new String[itemsOrdenados.get(0).getCantidades().size()];
+
+		int k = 0;
+
+		for (int i = 0; i < app.getInventario().getYears().size(); i++) {
+
+			if (i != app.getInventario().getYears().size() - 1) {
+				for (int j = 0; j <= 11; j++, k++) {
+
+					int aux = j + 1;
+					columnasAuxPeriodos[k] = app.getInventario().getYears().get(i) + "/" + aux;
+
+				}
+			}else {
+				for (int j = 0; j <= app.getInventario().encontrarUltimoPeriodo(); j++, k++) {
+
+					int aux = j + 1;
+					columnasAuxPeriodos[k] = app.getInventario().getYears().get(i) + "/" + aux;
+
+				}
+				
+				
+			}
+
+		}
+
 		int auxCol = 2;
 		String[] columnas = new String[itemsOrdenados.get(0).getCantidades().size() + auxCol];
 		Object[][] data = new Object[itemsOrdenados.size()][itemsOrdenados.get(0).getCantidades().size() + auxCol];
@@ -315,7 +341,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 			} else {
 
-				columnas[i] = i - 1 + "";
+				columnas[i] = columnasAuxPeriodos[i - 2] + "";
 
 			}
 
