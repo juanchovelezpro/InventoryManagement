@@ -308,7 +308,7 @@ public class Item implements Comparable<Item> {
 	// Si el item se encuentra en stock o bajo pedido.
 	public void definirStock() {
 
-		if (clase == 'C') {
+		if (clase == 'A' || clase == 'B') {
 
 			stock = true;
 
