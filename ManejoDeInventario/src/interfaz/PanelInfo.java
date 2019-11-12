@@ -588,7 +588,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 
 				if (inv.getItems().get(items.getSelectedIndex()).isStock()) {
 
-					butStock.setText("EN STOCK");
+					butStock.setText("STOCK");
 					butStock.setBackground(Color.GREEN.brighter());
 
 				} else {
