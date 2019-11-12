@@ -204,7 +204,7 @@ public class PanelInfo extends JPanel implements ActionListener {
 		txtPDemanda = new JTextField();
 		txtPDemanda.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtPDemanda.setEditable(false);
-		txtPDemanda.setFont(new Font("Garamond", Font.PLAIN, 20));
+		txtPDemanda.setFont(new Font("Garamond", Font.PLAIN, 18));
 		txtPDemanda.setColumns(10);
 		txtPDemanda.setBounds(152, 288, 176, 36);
 		add(txtPDemanda);

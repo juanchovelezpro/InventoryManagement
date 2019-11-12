@@ -283,10 +283,14 @@ public class Item implements Comparable<Item> {
 
 			patronDemanda = "Errática";
 
-		} else {
+		} else if(cvd<0.2) {
 
 			patronDemanda = "Horizontal";
 
+		}else {
+			
+			patronDemanda = "De tendencia o ciclica.";
+			
 		}
 
 	}
